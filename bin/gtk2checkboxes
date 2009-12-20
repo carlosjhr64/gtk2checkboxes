@@ -9,6 +9,10 @@ Gtk2App.init( {
 	:FILE		=> __FILE__,
 	} )
 
+require 'find'
+require 'gtk2checkboxes/gtk2checkboxes.rb'
+require 'gtk2applib/gtk2_dialogs_entry.rb'
+require 'gtk2applib/gtk2_dialogs_choose_tags.rb'
 about = {
         'authors'       => ['carlosjhr64@gmail.com'],
         'website'       => 'http://ruby-gnome-apps.blogspot.com/search/label/CheckBoxes',
@@ -17,11 +21,48 @@ about = {
         'copyright'     => '2009-Dec-28',
 }
 Gtk2App.main_window(about) do |window|
-  require 'gtk2checkboxes/gtk2checkboxes.rb'
   include Configuration
-  data_file = UserSpace::DIRECTORY + "/#{DEFAULT_TAB}.txt"
-  hbox = CheckBoxes::Page.new(data_file)
-  window.add( Gtk2App::ScrolledWindow.new(hbox) )
+
+  empty = true
+  notebook = Gtk::Notebook.new
+  tabs = {}
+  Find.find(UserSpace::DIRECTORY){|fn|
+    Find.prune if !(fn==UserSpace::DIRECTORY) && File.directory?(fn)
+    if fn=~/\/(\w+)\.txt$/ then
+      tab = $1
+      tabs[tab] = CheckBoxes::Page.new(fn)
+      notebook.append_page(tabs[tab],Gtk::Label.new(tab))
+      empty = false if empty
+    end
+  }
+  if empty then
+    tabs[DEFAULT_TAB] = CheckBoxes::Page.new("#{UserSpace::DIRECTORY}/#{DEFAULT_TAB}.txt")
+    notebook.append_page(tabs[DEFAULT_TAB],Gtk::Label.new(DEFAULT_TAB))
+  end
+
+  # Menu Options
+  Gtk2App.app.menu.append( Gtk::SeparatorMenuItem.new )
+  dialogs = Gtk2App::Dialogs.new
+  Gtk2App.app.menu.append_menu_item('_Add Tab'){
+    tab = dialogs.entry('Name:',{:title=>'New Tab...',:entry_width=>90}).strip
+    if tab=~/^\w+$/ && !tabs[tab] then
+      data_file = UserSpace::DIRECTORY + "/#{tab}.txt"
+      tabs[tab] = CheckBoxes::Page.new(data_file)
+      notebook.append_page(tabs[tab],Gtk::Label.new(tab))
+      notebook.show_all
+    else
+      dialogs.quick_message('Tab name must match /^\w+$/',{:title=>'Error'})
+    end
+  }
+  Gtk2App.app.menu.append_menu_item('_Delete Tab'){
+    tab = dialogs.choose_tags(tabs.keys.sort, {:title=>'Delete Tab...',:single_choice=>true})
+    if tab && tab = tab.shift then
+      tabs[tab].delete # delete the tab page
+      tabs.delete(tab) # delete the tab key
+    end
+  }
+
+  window.add( Gtk2App::ScrolledWindow.new(notebook) )
 end
 
 Gtk2App.finalize
