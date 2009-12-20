@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+gem 'gtk2applib', '~> 4.1.0'
+require 'gtk2applib/gtk2_app'
+
+Gtk2App.init( {
+	:name		=> 'Ruby-Gnome CheckBoxes',
+ 	:tooltip	=> 'CheckBoxes',
+	:FILE		=> __FILE__,
+	} )
+
+about = {
+        'authors'       => ['carlosjhr64@gmail.com'],
+        'website'       => 'http://ruby-gnome-apps.blogspot.com/search/label/CheckBoxes',
+        'website-label' => 'Ruby-Gnome CheckBoxes Blog',
+        'license'       => 'GPL',
+        'copyright'     => '2009-Dec-28',
+}
+Gtk2App.main_window(about) do |window|
+  require 'gtk2checkboxes/gtk2checkboxes.rb'
+  include Configuration
+  data_file = UserSpace::DIRECTORY + "/#{DEFAULT_TAB}.txt"
+  hbox = CheckBoxes::Page.new(data_file)
+  window.add( Gtk2App::ScrolledWindow.new(hbox) )
+end
+
+Gtk2App.finalize
