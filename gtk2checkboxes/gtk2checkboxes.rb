@@ -8,7 +8,10 @@ module CheckBoxes
 
 class Page < Gtk::HBox
   def add_item(vbox, text='', checked=false)
-    Gtk2App::CheckButtonEntry.new(text, vbox, WIDGET).active = checked
+    cbe = Gtk2App::CheckButtonEntry.new(text, vbox, WIDGET)
+    cbe.active = checked
+    cbe.signal_connect('toggled'){ @changed = true if !@changed }
+    cbe.entry.signal_connect('focus-in-event'){ @changed = true if !@changed }
     vbox.show_all
   end
 
@@ -69,6 +72,7 @@ EOT
     super()
     @save = true
     @dialogs = dialogs
+    @changed = false
 
     # Button to add a column
     button1 = Gtk2App::Button.new('+', self, WIDGET){
@@ -108,29 +112,31 @@ EOT
     self.pack_start(vbox2, false, false)
 
     self.signal_connect('destroy') {
-      File.rename(data_file, data_file+'.bak') if File.exist?(data_file)
-      File.open(data_file,'w'){|fh|
-        nl = false
-        self.children.each{|vbox|
-          if vbox.children.length > 1 then
-            count = 0
-            vbox.each { |box|
-              check, entry = box.children
-              if entry && entry.text.strip.length > 0 then
-                count += 1
-                if check.active? then
-                  fh.print "*\t"
-                else
-                  fh.print "\t"
+      if @changed then
+        File.rename(data_file, data_file+'.bak') if File.exist?(data_file)
+        File.open(data_file,'w'){|fh|
+          nl = false
+          self.children.each{|vbox|
+            if vbox.children.length > 1 then
+              count = 0
+              vbox.each { |box|
+                check, entry = box.children
+                if entry && entry.text.strip.length > 0 then
+                  count += 1
+                  if check.active? then
+                    fh.print "*\t"
+                  else
+                    fh.print "\t"
+                  end
+                  fh.puts entry.text
                 end
-                fh.puts entry.text
-              end
-            }
-            fh.puts if count > 0
-          end
+              }
+              fh.puts if count > 0
+            end
+          }
         }
-      }
-      File.rename(data_file, data_file+'.bak') if !@save
+        File.rename(data_file, data_file+'.bak') if !@save
+      end
     }
   end
 end
