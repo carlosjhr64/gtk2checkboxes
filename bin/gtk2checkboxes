@@ -23,6 +23,7 @@ about = {
 Gtk2App.main_window(about) do |window|
   include Configuration
 
+  dialogs = Gtk2App::Dialogs.new
   empty = true
   notebook = Gtk::Notebook.new
   tabs = {}
@@ -30,24 +31,22 @@ Gtk2App.main_window(about) do |window|
     Find.prune if !(fn==UserSpace::DIRECTORY) && File.directory?(fn)
     if fn=~/\/(\w+)\.txt$/ then
       tab = $1
-      tabs[tab] = CheckBoxes::Page.new(fn)
+      tabs[tab] = CheckBoxes::Page.new(fn,dialogs)
       notebook.append_page(tabs[tab],Gtk::Label.new(tab))
       empty = false if empty
     end
   }
   if empty then
-    tabs[DEFAULT_TAB] = CheckBoxes::Page.new("#{UserSpace::DIRECTORY}/#{DEFAULT_TAB}.txt")
+    tabs[DEFAULT_TAB] = CheckBoxes::Page.new("#{UserSpace::DIRECTORY}/#{DEFAULT_TAB}.txt",dialogs)
     notebook.append_page(tabs[DEFAULT_TAB],Gtk::Label.new(DEFAULT_TAB))
   end
-
   # Menu Options
   Gtk2App.app.menu.append( Gtk::SeparatorMenuItem.new )
-  dialogs = Gtk2App::Dialogs.new
   Gtk2App.app.menu.append_menu_item('_Add Tab'){
     tab = dialogs.entry('Name:',{:title=>'New Tab...',:entry_width=>90}).strip
     if tab=~/^\w+$/ && !tabs[tab] then
       data_file = UserSpace::DIRECTORY + "/#{tab}.txt"
-      tabs[tab] = CheckBoxes::Page.new(data_file)
+      tabs[tab] = CheckBoxes::Page.new(data_file,dialogs)
       notebook.append_page(tabs[tab],Gtk::Label.new(tab))
       notebook.show_all
     else
@@ -63,6 +62,15 @@ Gtk2App.main_window(about) do |window|
   }
 
   window.add( Gtk2App::ScrolledWindow.new(notebook) )
+  window.signal_connect('destroy'){
+    alloc = window.allocation
+    GUI[:window_size]=[alloc.width,alloc.height]
+    GUI[:notebook_page]=notebook.page
+  }
+  Gtk.timeout_add(500){
+    notebook.set_page(GUI[:notebook_page]) if GUI[:notebook_page]
+    false
+  }
 end
 
 Gtk2App.finalize
