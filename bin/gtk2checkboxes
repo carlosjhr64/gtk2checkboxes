@@ -18,7 +18,7 @@ about = {
         'website'       => 'http://ruby-gnome-apps.blogspot.com/search/label/CheckBoxes',
         'website-label' => 'Ruby-Gnome CheckBoxes Blog',
         'license'       => 'GPL',
-        'copyright'     => '2009-Dec-28',
+        'copyright'     => '2009-Dec-23',
 }
 Gtk2App.main_window(about) do |window|
   include Configuration
