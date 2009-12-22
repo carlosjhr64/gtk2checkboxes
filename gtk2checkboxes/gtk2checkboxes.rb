@@ -14,6 +14,7 @@ class Page < Gtk::HBox
 
   def delete
     @save = false
+    @changed = true
     self.destroy
   end
 
