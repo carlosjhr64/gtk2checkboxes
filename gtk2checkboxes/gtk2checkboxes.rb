@@ -2,9 +2,8 @@ require 'gtk2applib/gtk2_app_widgets_button.rb'
 require 'gtk2applib/gtk2_app_widgets_checkbuttonentry.rb'
 
 module CheckBoxes
-  include Configuration
-
 class Page < Gtk::HBox
+  include Configuration
   def add_item(vbox, text='', checked=false)
     cbe = Gtk2App::CheckButtonEntry.new(text, vbox, WIDGET)
     cbe.active = checked
