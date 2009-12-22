@@ -32,13 +32,17 @@ Gtk2App.main_window(about) do |window|
     if fn=~/\/(\w+)\.txt$/ then
       tab = $1
       tabs[tab] = CheckBoxes::Page.new(fn,dialogs)
-      notebook.append_page(tabs[tab],Gtk::Label.new(tab))
+      label = Gtk::Label.new(tab)
+      label.width_request = TAB_WIDTH
+      notebook.append_page(tabs[tab],label)
       empty = false if empty
     end
   }
   if empty then
     tabs[DEFAULT_TAB] = CheckBoxes::Page.new("#{UserSpace::DIRECTORY}/#{DEFAULT_TAB}.txt",dialogs)
-    notebook.append_page(tabs[DEFAULT_TAB],Gtk::Label.new(DEFAULT_TAB))
+    label = Gtk::Label.new(DEFAULT_TAB)
+    label.width_request = TAB_WIDTH
+    notebook.append_page(tabs[DEFAULT_TAB],label)
   end
   # Menu Options
   Gtk2App.app.menu.append( Gtk::SeparatorMenuItem.new )
@@ -47,7 +51,9 @@ Gtk2App.main_window(about) do |window|
     if tab=~/^\w+$/ && !tabs[tab] then
       data_file = UserSpace::DIRECTORY + "/#{tab}.txt"
       tabs[tab] = CheckBoxes::Page.new(data_file,dialogs)
-      notebook.append_page(tabs[tab],Gtk::Label.new(tab))
+      label = Gtk::Label.new(tab)
+      label.width_request = TAB_WIDTH
+      notebook.append_page(tabs[tab],label)
       notebook.show_all
     else
       dialogs.quick_message(TABNAME_ERROR_MESSAGE,TABNAME_ERROR_OPTIONS)

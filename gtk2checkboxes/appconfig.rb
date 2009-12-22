@@ -4,7 +4,9 @@ module Configuration
   MENU[:close]	= '_Close'
   MENU[:fs]	= '_FullScreen'	if Gtk2App::HILDON
 
-  entry_width	= (Gtk2App::HILDON)? 150: 75
+  TAB_WIDTH	= 75
+
+  entry_width	= (Gtk2App::HILDON)? 150: 100
   entry_font	= (Gtk2App::HILDON)? FONT[:large]: FONT[:small]
 
   # Dialogs
