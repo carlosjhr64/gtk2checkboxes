@@ -42,6 +42,9 @@ Gtk2App.main_window(about) do |window|
     Find.prune if !(fn==UserSpace::DIRECTORY) && File.directory?(fn)
     if fn=~/\/(\w+)\.txt$/ then
       notebook_append_page.call($1)
+    elsif fn=~/\.txt\.bak$/ then
+      # Remove previous bak files
+      File.unlink(fn)
     end
   }
 
