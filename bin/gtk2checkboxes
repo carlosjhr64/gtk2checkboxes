@@ -43,18 +43,18 @@ Gtk2App.main_window(about) do |window|
   # Menu Options
   Gtk2App.app.menu.append( Gtk::SeparatorMenuItem.new )
   Gtk2App.app.menu.append_menu_item('_Add Tab'){
-    tab = dialogs.entry('Name:',{:title=>'New Tab...',:entry_width=>90}).strip
+    tab = dialogs.entry(TABNAME_ENTRY_MESSAGE,TABNAME_ENTRY_OPTIONS).strip
     if tab=~/^\w+$/ && !tabs[tab] then
       data_file = UserSpace::DIRECTORY + "/#{tab}.txt"
       tabs[tab] = CheckBoxes::Page.new(data_file,dialogs)
       notebook.append_page(tabs[tab],Gtk::Label.new(tab))
       notebook.show_all
     else
-      dialogs.quick_message('Tab name must match /^\w+$/',{:title=>'Error'})
+      dialogs.quick_message(TABNAME_ERROR_MESSAGE,TABNAME_ERROR_OPTIONS)
     end
   }
   Gtk2App.app.menu.append_menu_item('_Delete Tab'){
-    tab = dialogs.choose_tags(tabs.keys.sort, {:title=>'Delete Tab...',:single_choice=>true})
+    tab = dialogs.choose_tags(tabs.keys.sort,TABNAME_CHOOSE_OPTIONS)
     if tab && tab = tab.shift then
       tabs[tab].delete # delete the tab page
       tabs.delete(tab) # delete the tab key
@@ -67,7 +67,7 @@ Gtk2App.main_window(about) do |window|
     GUI[:window_size]=[alloc.width,alloc.height]
     GUI[:notebook_page]=notebook.page
   }
-  Gtk.timeout_add(500){
+  Gtk.timeout_add(SET_PAGE_EVENT){
     notebook.set_page(GUI[:notebook_page]) if GUI[:notebook_page]
     false
   }

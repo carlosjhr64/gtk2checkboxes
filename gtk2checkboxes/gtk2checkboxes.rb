@@ -3,8 +3,6 @@ require 'gtk2applib/gtk2_app_widgets_checkbuttonentry.rb'
 
 module CheckBoxes
   include Configuration
-  WIDGET = {:font=>FONT[:small], :entry_width=>90}.freeze
-  TOTAL = {:title=>"Totals",:scrolled_width=>nil,:scrolled_height=>nil}.freeze
 
 class Page < Gtk::HBox
   def add_item(vbox, text='', checked=false)
