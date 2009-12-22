@@ -27,38 +27,40 @@ Gtk2App.main_window(about) do |window|
   empty = true
   notebook = Gtk::Notebook.new
   tabs = {}
+
+  notebook_append_page = proc {|tab|
+    fn = "#{UserSpace::DIRECTORY}/#{tab}.txt"
+    tabs[tab] = page = CheckBoxes::Page.new(fn,dialogs)
+    label = Gtk::Label.new(tab)
+    label.width_request = TAB_WIDTH if TAB_WIDTH
+    notebook.append_page(page,label)
+    notebook.set_tab_label_packing(page,false,false,Gtk::PACK_START)
+    empty = false if empty
+  }
+
   Find.find(UserSpace::DIRECTORY){|fn|
     Find.prune if !(fn==UserSpace::DIRECTORY) && File.directory?(fn)
     if fn=~/\/(\w+)\.txt$/ then
-      tab = $1
-      tabs[tab] = CheckBoxes::Page.new(fn,dialogs)
-      label = Gtk::Label.new(tab)
-      label.width_request = TAB_WIDTH
-      notebook.append_page(tabs[tab],label)
-      empty = false if empty
+      notebook_append_page.call($1)
     end
   }
+
   if empty then
-    tabs[DEFAULT_TAB] = CheckBoxes::Page.new("#{UserSpace::DIRECTORY}/#{DEFAULT_TAB}.txt",dialogs)
-    label = Gtk::Label.new(DEFAULT_TAB)
-    label.width_request = TAB_WIDTH
-    notebook.append_page(tabs[DEFAULT_TAB],label)
+    notebook_append_page.call(DEFAULT_TAB)
   end
+
   # Menu Options
   Gtk2App.app.menu.append( Gtk::SeparatorMenuItem.new )
   Gtk2App.app.menu.append_menu_item('_Add Tab'){
     tab = dialogs.entry(TABNAME_ENTRY_MESSAGE,TABNAME_ENTRY_OPTIONS).strip
     if tab=~/^\w+$/ && !tabs[tab] then
-      data_file = UserSpace::DIRECTORY + "/#{tab}.txt"
-      tabs[tab] = CheckBoxes::Page.new(data_file,dialogs)
-      label = Gtk::Label.new(tab)
-      label.width_request = TAB_WIDTH
-      notebook.append_page(tabs[tab],label)
+      notebook_append_page.call(tab)
       notebook.show_all
     else
       dialogs.quick_message(TABNAME_ERROR_MESSAGE,TABNAME_ERROR_OPTIONS)
     end
   }
+
   Gtk2App.app.menu.append_menu_item('_Delete Tab'){
     tab = dialogs.choose_tags(tabs.keys.sort,TABNAME_CHOOSE_OPTIONS)
     if tab && tab = tab.shift then
@@ -73,6 +75,7 @@ Gtk2App.main_window(about) do |window|
     GUI[:window_size]=[alloc.width,alloc.height]
     GUI[:notebook_page]=notebook.page
   }
+
   Gtk.timeout_add(SET_PAGE_EVENT){
     notebook.set_page(GUI[:notebook_page]) if GUI[:notebook_page]
     false
