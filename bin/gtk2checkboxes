@@ -1,88 +1,53 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-gem 'gtk2applib', '~> 5.0.0'
-require 'gtk2applib/gtk2_app'
+gem 'gtk2applib', '~> 9.1'
+require 'gtk2applib'
+require 'gtk2checkboxes'
+include Gtk2AppLib
+include Configuration
 
-Gtk2App.init( {
-	:name		=> 'Ruby-Gnome CheckBoxes',
- 	:tooltip	=> 'CheckBoxes',
-	:FILE		=> __FILE__,
-	} )
+program = Program.new(ABOUT)
+begin
+  program.window do |window|
+    program.append_app_menu( Gtk::SeparatorMenuItem.new )
 
-require 'find'
-require 'gtk2checkboxes/gtk2checkboxes.rb'
-require 'gtk2applib/gtk2_dialogs_entry.rb'
-require 'gtk2applib/gtk2_dialogs_choose_tags.rb'
-about = {
-        :authors       => ['carlosjhr64@gmail.com'],
-        :website       => 'http://ruby-gnome-apps.blogspot.com/search/label/Checkboxes',
-        :website_label => 'Ruby-Gnome CheckBoxes Blog',
-        :license       => 'GPL',
-        :copyright     => '2010-02-24 09:57:05',
-}
-Gtk2App.main_window(about) do |window|
-  include Configuration
+    ### GUI ###
+    scrolled_window	= Widgets::ScrolledWindow.new(window)
+    notebook		= Gtk2CheckBoxes::Notebook.new(scrolled_window)
 
-  dialogs = Gtk2App::Dialogs.new
-  empty = true
-  notebook = Gtk::Notebook.new
-  tabs = {}
+    ### Actions ###
+    ## Add Tab ##
+    program.append_app_menu('_Add Tab'){
+      if tab = DIALOGS.entry(*TABNAME_DIALOG) then
+        if tab=~/^\w+$/ && !notebook.has_tab?(tab) then
+          notebook.add_page(tab)
+        else
+          DIALOGS.quick_message(*ERROR_MESSAGE)
+        end
+      end
+    }
+    ## Delete Tab ##
+    program.append_app_menu('_Delete Tab'){
+      if tab = DIALOGS.choose_tags(notebook.tabs.sort,TABNAME_CHOOSE_OPTIONS) then
+        notebook.delete(tab)
+      end
+    }
 
-  notebook_append_page = proc {|tab|
-    fn = "#{UserSpace::DIRECTORY}/#{tab}.txt"
-    tabs[tab] = page = CheckBoxes::Page.new(fn,dialogs)
-    label = Gtk::Label.new(tab)
-    label.width_request = TAB_WIDTH if TAB_WIDTH
-    notebook.append_page(page,label)
-    notebook.set_tab_label_packing(page,false,false,Gtk::PACK_START)
-    empty = false if empty
-  }
-
-  Find.find(UserSpace::DIRECTORY){|fn|
-    Find.prune if !(fn==UserSpace::DIRECTORY) && File.directory?(fn)
-    if fn=~/\/(\w+)\.txt$/ then
-      notebook_append_page.call($1)
-    elsif fn=~/\.txt\.bak$/ then
-      # Remove previous bak files
-      File.unlink(fn)
+    ### STATE PRESERVATION ###
+    window.signal_connect('destroy'){
+      alloc = window.allocation
+      WINDOW_DEFAULT_SIZE[0],WINDOW_DEFAULT_SIZE[1] = alloc.width,alloc.height
+      APPLICATION[:Page]=notebook.page
+    }
+    if page = APPLICATION[:Page] then
+      Gtk.timeout_add(TIMEOUT[:XXShort]){
+        notebook.set_page(page)
+        false
+      }
     end
-  }
-
-  if empty then
-    notebook_append_page.call(DEFAULT_TAB)
   end
-
-  # Menu Options
-  Gtk2App.app.menu.append( Gtk::SeparatorMenuItem.new )
-  Gtk2App.app.menu.append_menu_item('_Add Tab'){
-    tab = dialogs.entry(TABNAME_ENTRY_MESSAGE,TABNAME_ENTRY_OPTIONS).strip
-    if tab=~/^\w+$/ && !tabs[tab] then
-      notebook_append_page.call(tab)
-      notebook.show_all
-    else
-      dialogs.quick_message(TABNAME_ERROR_MESSAGE,TABNAME_ERROR_OPTIONS)
-    end
-  }
-
-  Gtk2App.app.menu.append_menu_item('_Delete Tab'){
-    tab = dialogs.choose_tags(tabs.keys.sort,TABNAME_CHOOSE_OPTIONS)
-    if tab && tab = tab.shift then
-      tabs[tab].delete # delete the tab page
-      tabs.delete(tab) # delete the tab key
-    end
-  }
-
-  window.add( Gtk2App::ScrolledWindow.new(notebook) )
-  window.signal_connect('destroy'){
-    alloc = window.allocation
-    GUI[:window_size]=[alloc.width,alloc.height]
-    GUI[:notebook_page]=notebook.page
-  }
-
-  Gtk.timeout_add(SET_PAGE_EVENT){
-    notebook.set_page(GUI[:notebook_page]) if GUI[:notebook_page]
-    false
-  }
+rescue Exception
+  $!.puts_bang!
+ensure
+  program.finalize
 end
-
-Gtk2App.finalize
