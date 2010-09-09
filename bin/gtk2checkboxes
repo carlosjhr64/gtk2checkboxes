@@ -6,7 +6,15 @@ require 'gtk2checkboxes'
 include Gtk2AppLib
 include Configuration
 
-program = Program.new(ABOUT)
+program = Program.new({
+	'name'		=> 'Ruby-Gnome CheckBoxes',
+        'authors'       => ['carlosjhr64@gmail.com'],
+        'website'       => 'http://ruby-gnome-apps.blogspot.com/search/label/Checkboxes',
+        'website-label'	=> 'Ruby-Gnome CheckBoxes Blog',
+        'license'       => 'GPL',
+        'copyright'     => '2010-09-09 15:27:24',
+  })
+
 begin
   program.window do |window|
     program.append_app_menu( Gtk::SeparatorMenuItem.new )

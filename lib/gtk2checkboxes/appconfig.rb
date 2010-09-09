@@ -3,16 +3,6 @@ module Configuration
 
   DEFAULT_TAB = 'CheckBoxes'
 
-  ABOUT = {
-	'name'		=> 'Ruby-Gnome CheckBoxes',
-        'authors'       => ['carlosjhr64@gmail.com'],
-        'website'       => 'http://ruby-gnome-apps.blogspot.com/search/label/Checkboxes',
-        'website-label'	=> 'Ruby-Gnome CheckBoxes Blog',
-        'license'       => 'GPL',
-        'copyright'     => '2010-02-24 09:57:05',
-  }
-
-
   MENU[:close]	= '_Close'
   MENU[:fs]	= '_FullScreen'	if Gtk2AppLib::HILDON
 
