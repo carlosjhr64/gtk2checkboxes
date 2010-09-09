@@ -49,7 +49,7 @@ class Page < Widgets::HBox
   include Configuration
   Widgets.define_composite(:CheckButton,:Entry)
   def add_item(vbox, text='', checked=false)
-    cbe = Widgets::CheckButtonEntry.new([CHECK_OPTIONS,'toggled'], text, vbox, ENTRY_OPTIONS,'focus-in-event'){ @changed ||= true }
+    cbe = Widgets::CheckButtonEntry.new([CHECK_OPTIONS,'toggled'], text, vbox, ENTRY_OPTIONS,'focus-in-event'){ @changed ||= true; false }
     cbe.checkbutton.active = checked
     vbox.show_all
   end
@@ -113,11 +113,12 @@ EOT
     @save = true
     @changed = false
 
-    button_action = proc {|box,signal,button,event|
+    button_action = proc {|box,signal,*event|
       case signal
         when 'clicked' then add_item(box)
-        when 'button-press-event' then parse(box) if event.button == 3
+        when 'button-press-event' then parse(box) if event.last.button == 3
       end
+      false
     }
 
     signals = ['clicked', 'button-press-event']

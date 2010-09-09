@@ -12,7 +12,7 @@ program = Program.new({
         'website'       => 'http://ruby-gnome-apps.blogspot.com/search/label/Checkboxes',
         'website-label'	=> 'Ruby-Gnome CheckBoxes Blog',
         'license'       => 'GPL',
-        'copyright'     => '2010-09-09 15:27:24',
+        'copyright'     => '2010-09-09 15:44:38',
   })
 
 begin
