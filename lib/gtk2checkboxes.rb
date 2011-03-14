@@ -1,55 +1,90 @@
+require 'find' # Find defined
+# Gtk2AppLib defined
+# Configuration defined
+# File defined
+# Gtk defined
+
 module Gtk2CheckBoxes
-include Gtk2AppLib
 
-class Notebook < Widgets::Notebook
-  include Gtk2AppLib
-  include Configuration
-  def add_page(tab=DEFAULT_TAB)
-    fn = "#{USERDIR}/#{tab}.txt"
-    @tabs[tab] = Page.new(fn,self)
-    Widgets::Label.new(tab,self,TAB_OPTIONS)
-    self.show_all
-  end
+class Page < Gtk2AppLib::Widgets::HBox # Page defined
+  Gtk2AppLib::Widgets.define_composite(:CheckButton,:Entry)
 
-  def delete(tab)
-    @tabs[tab].delete
-    @tabs.delete(tab)
-  end
+  def initialize(data_file,container)
+    super(container)
+    @save = true
+    @changed = false
 
-  def has_tab?(tab)
-    @tabs.has_key?(tab)
-  end
+    button_action = proc {|box,signal,*event|
+      case signal
+        when 'clicked' then self.add_item(box)
+        when 'button-press-event' then self.parse(box) if event.last.button == 3
+      end
+      false
+    }
 
-  def tabs
-    @tabs.keys
-  end
+    signals = ['clicked', 'button-press-event']
 
-  def load_pages
-    Find.find(USERDIR){|fn|
-      Find.prune if !(fn==USERDIR) && File.directory?(fn)
-      if fn=~/\/(\w+)\.txt$/ then
-        add_page($1)
-      elsif fn=~/\.txt\.bak$/ then
-        # Remove previous bak files
-        File.unlink(fn)
+    # Button to add a column
+    button1 = Gtk2AppLib::Widgets::Button.new('+', self, Configuration::BUTTON_OPTIONS, *signals){
+      vbox1 = Gtk2AppLib::Widgets::VBox.new(self)
+      # Button to add a row
+      button2 = Gtk2AppLib::Widgets::Button.new('+', vbox1, Configuration::BUTTON_OPTIONS, *signals){|*emits| button_action.call(*emits)}
+      button2.is = vbox1
+      self.show_all
+    }
+
+    vbox2 = Gtk2AppLib::Widgets::VBox.new(self)
+    button3 = Gtk2AppLib::Widgets::Button.new('+', vbox2, Configuration::BUTTON_OPTIONS, *signals){|*emits| button_action.call(*emits)}
+    button3.is = vbox2
+
+    File.open(data_file,'r') { |fh|
+      fh.each { |line|
+        line.strip!
+        if line == '' then
+          vbox2 = Gtk2AppLib::Widgets::VBox.new(self)
+          button4 = Gtk2AppLib::Widgets::Button.new('+', vbox2, Configuration::BUTTON_OPTIONS, *signals){|*emits| button_action.call(*emits)}
+          button4.is = vbox2
+        else
+          checked = false
+          if line =~ /\*\s+(\S.*)/ then
+            line = $1
+            checked = true
+          end
+          self.add_item(vbox2,line,checked)
+        end
+      }
+    } if File.exist?(data_file)
+
+    self.signal_connect('destroy') {
+      if @changed then
+        File.rename(data_file, data_file+'.bak') if File.exist?(data_file)
+        File.open(data_file,'w'){|fh|
+          nl = false
+          self.children.each{|vbox|
+            if vbox.children.length > 1 then
+              count = 0
+              vbox.each { |box|
+                check, entry = box.children
+                if entry && entry.text.strip.length > 0 then
+                  count += 1
+                  if check.active? then
+                    fh.print "*\t"
+                  else
+                    fh.print "\t"
+                  end
+                  fh.puts entry.text
+                end
+              }
+              fh.puts if count > 0
+            end
+          }
+        }
+        File.rename(data_file, data_file+'.bak') if !@save
       end
     }
   end
-
-  def initialize(container)
-    super(container)
-    @tabs = {}
-    load_pages
-    add_page	if @tabs.keys.length < 1
-  end
-end
-
-class Page < Widgets::HBox
-  include Gtk2AppLib
-  include Configuration
-  Widgets.define_composite(:CheckButton,:Entry)
   def add_item(vbox, text='', checked=false)
-    cbe = Widgets::CheckButtonEntry.new([CHECK_OPTIONS,'toggled'], text, vbox, ENTRY_OPTIONS,'focus-in-event'){ @changed ||= true; false }
+    cbe = Gtk2AppLib::Widgets::CheckButtonEntry.new([Configuration::CHECK_OPTIONS,'toggled'], text, vbox, Configuration::ENTRY_OPTIONS,'focus-in-event'){ @changed ||= true; false }
     cbe.checkbutton.active = checked
     vbox.show_all
   end
@@ -104,83 +139,52 @@ Total:\t#{total}
 Active:\t#{active}
 Inactive:\t#{inactive}
 EOT
-      DIALOGS.quick_message(message,TOTAL)
+      Gtk2AppLib::DIALOGS.quick_message(message,Configuration::TOTAL)
     end
   end
+end
 
-  def initialize(data_file,container)
+class Notebook < Gtk2AppLib::Widgets::Notebook
+
+  def initialize(container)
     super(container)
-    @save = true
-    @changed = false
+    @tabs = {}
+    self.load_pages
+    self.add_page	if @tabs.keys.length < 1
+  end
 
-    button_action = proc {|box,signal,*event|
-      case signal
-        when 'clicked' then add_item(box)
-        when 'button-press-event' then parse(box) if event.last.button == 3
-      end
-      false
-    }
+  def add_page(tab=Configuration::DEFAULT_TAB)
+    fn = "#{Gtk2AppLib::USERDIR}/#{tab}.txt"
+    @tabs[tab] = Page.new(fn,self)
+    Gtk2AppLib::Widgets::Label.new(tab,self,Configuration::TAB_OPTIONS)
+    self.show_all
+  end
 
-    signals = ['clicked', 'button-press-event']
+  def delete(tab)
+    @tabs[tab].delete
+    @tabs.delete(tab)
+  end
 
-    # Button to add a column
-    button1 = Widgets::Button.new('+', self, BUTTON_OPTIONS, *signals){
-      vbox1 = Widgets::VBox.new(self)
-      # Button to add a row
-      button2 = Widgets::Button.new('+', vbox1, BUTTON_OPTIONS, *signals){|*emits| button_action.call(*emits)}
-      button2.is = vbox1
-      self.show_all
-    }
+  def has_tab?(tab)
+    @tabs.has_key?(tab)
+  end
 
-    vbox2 = Widgets::VBox.new(self)
-    button3 = Widgets::Button.new('+', vbox2, BUTTON_OPTIONS, *signals){|*emits| button_action.call(*emits)}
-    button3.is = vbox2
+  def tabs
+    @tabs.keys
+  end
 
-    File.open(data_file,'r') { |fh|
-      fh.each { |line|
-        line.strip!
-        if line == '' then
-          vbox2 = Widgets::VBox.new(self)
-          button4 = Widgets::Button.new('+', vbox2, BUTTON_OPTIONS, *signals){|*emits| button_action.call(*emits)}
-          button4.is = vbox2
-        else
-          checked = false
-          if line =~ /\*\s+(\S.*)/ then
-            line = $1
-            checked = true
-          end
-          add_item(vbox2,line,checked)
-        end
-      }
-    } if File.exist?(data_file)
-
-    self.signal_connect('destroy') {
-      if @changed then
-        File.rename(data_file, data_file+'.bak') if File.exist?(data_file)
-        File.open(data_file,'w'){|fh|
-          nl = false
-          self.children.each{|vbox|
-            if vbox.children.length > 1 then
-              count = 0
-              vbox.each { |box|
-                check, entry = box.children
-                if entry && entry.text.strip.length > 0 then
-                  count += 1
-                  if check.active? then
-                    fh.print "*\t"
-                  else
-                    fh.print "\t"
-                  end
-                  fh.puts entry.text
-                end
-              }
-              fh.puts if count > 0
-            end
-          }
-        }
-        File.rename(data_file, data_file+'.bak') if !@save
+  def load_pages
+    Find.find(Gtk2AppLib::USERDIR){|fn|
+      Find.prune if !(fn==Gtk2AppLib::USERDIR) && File.directory?(fn)
+      if fn=~/\/(\w+)\.txt$/ then
+        add_page($1)
+      elsif fn=~/\.txt\.bak$/ then
+        # Remove previous bak files
+        File.unlink(fn)
       end
     }
   end
+
+
 end
 end

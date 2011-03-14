@@ -1,42 +1,42 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-gem 'gtk2applib', '~> 10'
-require 'gtk2applib'
-require 'gtk2checkboxes'
-include Gtk2AppLib
-include Configuration
+gem 'gtk2applib', '~> 14.2'
+require 'gtk2applib'		# Gtk2AppLib defined
+				# Gtk defined
+require 'gtk2checkboxes'	# Gtk2CheckBoxes defined
 
-program = Program.new({
+program = Gtk2AppLib::Program.new({
 	'name'		=> 'Ruby-Gnome CheckBoxes',
         'authors'       => ['carlosjhr64@gmail.com'],
-        'website'       => 'http://ruby-gnome-apps.blogspot.com/search/label/Checkboxes',
+        'website'       => 'https://sites.google.com/site/gtk2applib/home/gtk2applib-applications/gkt2checkboxes',
         'website-label'	=> 'Ruby-Gnome CheckBoxes Blog',
         'license'       => 'GPL',
-        'copyright'     => '2010-12-08 08:32:56',
+        'copyright'     => '2011-03-14 09:31:13',
   })
 
+start_page = nil
 begin
   program.window do |window|
     program.append_app_menu( Gtk::SeparatorMenuItem.new )
 
     ### GUI ###
-    scrolled_window	= Widgets::ScrolledWindow.new(window)
+    scrolled_window	= Gtk2AppLib::Widgets::ScrolledWindow.new(window)
     notebook		= Gtk2CheckBoxes::Notebook.new(scrolled_window)
 
     ### Actions ###
     ## Add Tab ##
-    program.append_app_menu('_Add Tab'){
-      if tab = DIALOGS.entry(*TABNAME_DIALOG) then
+    program.append_app_menu('_Add Tab') do
+      if tab = Gtk2AppLib::DIALOGS.entry(*Gtk2CheckBoxes::Configuration::TABNAME_DIALOG) then
         if tab=~/^\w+$/ && !notebook.has_tab?(tab) then
           notebook.add_page(tab)
         else
-          DIALOGS.quick_message(*ERROR_MESSAGE)
+          Gtk2AppLib::DIALOGS.quick_message(*Gtk2CheckBoxes::Configuration::ERROR_MESSAGE)
         end
       end
-    }
+    end
     ## Delete Tab ##
     program.append_app_menu('_Delete Tab'){
-      if tab = DIALOGS.choose_tags(notebook.tabs.sort,TABNAME_CHOOSE_OPTIONS) then
+      if tab = Gtk2AppLib::DIALOGS.choose_tags(notebook.tabs.sort,Gtk2CheckBoxes::Configuration::TABNAME_CHOOSE_OPTIONS) then
         notebook.delete(tab)
       end
     }
@@ -44,17 +44,12 @@ begin
     ### STATE PRESERVATION ###
     window.signal_connect('destroy'){
       alloc = window.allocation
-      WINDOW_DEFAULT_SIZE[0],WINDOW_DEFAULT_SIZE[1] = alloc.width,alloc.height
-      APPLICATION[:Page]=notebook.page
+      Gtk2AppLib::Configuration::WINDOW_DEFAULT_SIZE[0],Gtk2AppLib::Configuration::WINDOW_DEFAULT_SIZE[1] = alloc.width,alloc.height
+      start_page=notebook.page
     }
-    if page = APPLICATION[:Page] then
-      Gtk.timeout_add(TIMEOUT[:XXShort]){
-        notebook.set_page(page)
-        false
-      }
-    end
-
     window.show_all
+    notebook.set_page(start_page) if start_page
+
   end
 rescue Exception
   $!.puts_bang!
