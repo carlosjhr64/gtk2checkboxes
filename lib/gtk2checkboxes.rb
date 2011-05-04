@@ -14,7 +14,7 @@ class Page < Gtk2AppLib::Widgets::HBox # Page defined
 
   def button_action(box,signal,*event)
     case signal
-      when 'clicked' then self.add_item(box)
+      when 'clicked' then self.add_item(box,'',false)
       when 'button-press-event' then Page.parse(box) if event.last.button == 3
     end
     false
@@ -72,14 +72,16 @@ class Page < Gtk2AppLib::Widgets::HBox # Page defined
     if entry_text =~ /\S/ then
       (check.active?)?  (fh.print "*\t") : (fh.print "\t")
       fh.puts entry_text
+      return true
     end
+    return false
   end
 
   def self.puts_this(vbox,fh)
     count = false
     vbox.each do |box|
       check,entry = box.children
-      count ||= Page._puts_this(check,entry.text,fh)	if entry
+      (count ||= true) if (entry && Page._puts_this(check,entry.text,fh))
     end
     fh.puts if count
   end
@@ -99,7 +101,7 @@ class Page < Gtk2AppLib::Widgets::HBox # Page defined
     end
   end
 
-  def add_item(vbox, text='', checked=false)
+  def add_item(vbox, text, checked)
     cbe = Gtk2AppLib::Widgets::CheckButtonEntry.new([Configuration::CHECK_OPTIONS,'toggled'], text, vbox, Configuration::ENTRY_OPTIONS,'focus-in-event'){ @changed ||= true; false }
     cbe.checkbutton.active = checked
     vbox.show_all
@@ -111,41 +113,41 @@ class Page < Gtk2AppLib::Widgets::HBox # Page defined
     self.destroy
   end
 
-  def self.___parse(operator,operand,key,counter)
-    counter[:total] = counter[:total].method(operator).call(operand)
-    counter[key] = counter[key].method(operator).call(operand)
-    counter[:nothing] &&= false
-  end
-
-  def self.__parse(text,checked,counter)
-      counter[:top] = text if !counter[:top]
-      if text=~/([\+\-\*\/])((\d+)(\.\d+)?)/ then
-        key = (checked)? :active : :inactive
-        Page.___parse($1,$2.to_f,key,counter)
-      end
+  def self.__parse(text,key,counter)
+    counter[:TOP] = text if !counter[:TOP]
+    if text =~ /([\+\-\*\/])((\d+)(\.\d+)?)/ then
+      operator, operand = $1, $2.to_f
+      counter[:TOTAL] = counter[:TOTAL].method(operator).call(operand)
+      counter[key] = counter[key].method(operator).call(operand)
+      counter[:NOTHING] &&= false
+    end
   end
 
   def self._parse(child_children,counter)
     child_children_last = child_children.last
-    Page.__parse(child_children_last.text.strip,child_children.first.active?,counter) if child_children_last.kind_of?( Gtk::Entry )
+    Page.__parse(
+	child_children_last.text.strip,
+	(child_children.first.active?)? :ACTIVE : :INACTIVE,
+	counter
+    ) if child_children_last.kind_of?( Gtk::Entry )
   end
 
   def self.parse_report(counter)
     message = <<EOT
-#{counter[:top]}
-Total:\t#{counter[:total]}
-Active:\t#{counter[:active]}
-Inactive:\t#{counter[:inactive]}
+#{counter[:TOP]}
+Total:\t#{counter[:TOTAL]}
+Active:\t#{counter[:ACTIVE]}
+Inactive:\t#{counter[:INACTIVE]}
 EOT
     Gtk2AppLib::DIALOGS.quick_message(message,Configuration::TOTAL)
   end
 
   def self.parse(vbox)
     counter = Hash.new(0)
-    counter[:top] = nil
-    counter[:nothing] = true
+    counter[:TOP] = nil
+    counter[:NOTHING] = true
     vbox.children.each{|child| Page._parse(child.children,counter) if child.kind_of?( Gtk::HBox ) }
-    Page.parse_report(counter) if !counter[:nothing]
+    Page.parse_report(counter) if !counter[:NOTHING]
   end
 end
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-gem 'gtk2applib', '~> 14.2'
+gem 'gtk2applib', '~> 15.3'
 require 'gtk2applib'		# Gtk2AppLib defined
 				# Gtk defined
 require 'gtk2checkboxes'	# Gtk2CheckBoxes defined
@@ -11,7 +11,7 @@ program = Gtk2AppLib::Program.new({
         'website'       => 'https://sites.google.com/site/gtk2applib/home/gtk2applib-applications/gkt2checkboxes',
         'website-label'	=> 'Ruby-Gnome CheckBoxes Blog',
         'license'       => 'GPL',
-        'copyright'     => '2011-03-14 09:31:13',
+        'copyright'     => '2011-05-03 18:05:21',
   })
 
 start_page = nil
@@ -25,7 +25,7 @@ begin
 
     ### Actions ###
     ## Add Tab ##
-    program.append_app_menu('_Add Tab') do
+    program.append_app_menu(Gtk2CheckBoxes::Configuration::ADD_TAB) do
       if tab = Gtk2AppLib::DIALOGS.entry(*Gtk2CheckBoxes::Configuration::TABNAME_DIALOG) then
         if tab=~/^\w+$/ && !notebook.has_tab?(tab) then
           notebook.add_page(tab)
@@ -35,7 +35,7 @@ begin
       end
     end
     ## Delete Tab ##
-    program.append_app_menu('_Delete Tab'){
+    program.append_app_menu(Gtk2CheckBoxes::Configuration::DELETE_TAB){
       if tab = Gtk2AppLib::DIALOGS.choose_tags(notebook.tabs.sort,Gtk2CheckBoxes::Configuration::TABNAME_CHOOSE_OPTIONS) then
         notebook.delete(tab)
       end
