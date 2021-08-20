@@ -15,7 +15,7 @@ program = Gtk2AppLib::Program.new({
         'website'       => 'https://sites.google.com/site/gtk2applib/home/gtk2applib-applications/gkt2checkboxes',
         'website-label'	=> 'Ruby-Gnome CheckBoxes Blog',
         'license'       => 'GPL',
-        'copyright'     => '2011-05-03 18:05:21',
+        'copyright'     => '2021-08-20',
   })
 
 start_page = nil

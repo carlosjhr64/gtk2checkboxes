@@ -22,7 +22,7 @@ module Configuration
   # Tab Name Entry Dialog (entry)
   TABNAME_DIALOG = ['Name:', {:TITLE => 'New Tab...', :width_request => width}].freeze
   # Tab Name Error (quick_message)
-  ERROR_MESSAGE = ['Tab name must be a word', {:TITLE=>'Error'}].freeze
+  ERROR_MESSAGE = ['Tab name must be a unique word', {:TITLE=>'Error'}].freeze
 
   # Dialog's Choose Tag (choose_tags)
   TABNAME_CHOOSE_OPTIONS = {:TITLE=>'Delete Tab...',:SINGLE_CHOICE=>true}.freeze
