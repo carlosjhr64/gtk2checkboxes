@@ -1,4 +1,8 @@
 #!/usr/bin/env ruby
+if ARGV.include?('-v') or ARGV.include?('--version')
+  puts '3.0.210820'
+  exit
+end
 require 'rubygems'
 gem 'gtk2applib', '~> 15.3'
 require 'gtk2applib'		# Gtk2AppLib defined

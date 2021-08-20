@@ -6,6 +6,7 @@ require 'find' # Find defined
 
 # Check Boxex
 module Gtk2CheckBoxes
+  VERSION = '3.0.210820'
 
 # Da Page
 class Page < Gtk2AppLib::Widgets::HBox # Page defined
