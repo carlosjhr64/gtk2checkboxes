@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+require 'gtk2checkboxes'
+
+case ARGV
+in [/^(-v)|(--version)$/]
+  puts Gtk2CheckBoxes::VERSION
+in [/^(-h)|(--help)$/]
+  puts Gtk2CheckBoxes::HELP
+else
+  Gtk2CheckBoxes.run
+end
