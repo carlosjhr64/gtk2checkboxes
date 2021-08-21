@@ -1,7 +1,12 @@
 class Gtk2CheckBoxes
   using Rafini::String # String#semantic
   extend Rafini::Empty # a0 and h0
+
+  CACHE = File.join UserSpace::XDG['cache'], 'gtk3app', 'gtk2checkboxes'
+
   CONFIG = {
+    DefaultTab: 'Todo',
+
     about_dialog: {
       set_program_name: 'Gtk2CheckBoxes',
       set_version: VERSION.semantic(0..1),
@@ -20,11 +25,15 @@ class Gtk2CheckBoxes
     notebook: h0,
     notebook!: [:NOTEBOOK, :notebook],
 
-    HBOX: [:horizontal],
-    hbox: {
+    VBOX: [:vertical],
+    vbox: {
       into: [:append_page],
     },
-    hbox!: [:HBOX, :hbox],
+    vbox!: [:VBOX, :vbox],
+
+    CHECKBUTTON: a0,
+    checkbutton: h0,
+    checkbutton!: [:CHECKBUTTON, :checkbutton],
 
     # app_menu: {
     #   add_menu_item: [ :minime!, :help!, :about!, :quit!  ],

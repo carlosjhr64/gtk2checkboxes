@@ -10,6 +10,7 @@ class Gtk2CheckBoxes
 
   def self.run
     # StdLib
+    require 'find'
     # Gems
     require 'gtk3app'
     # This Gem
