@@ -13,7 +13,7 @@ class Gtk2CheckBoxes
     # Gems
     require 'gtk3app'
     # This Gem
-    # require_relative 'gkt2checkboxes/config.rb'
+    require_relative 'gtk2checkboxes/config.rb'
     require_relative 'gtk2checkboxes/gtk2checkboxes.rb'
     # Run
     Gtk3App.run(klass:Gtk2CheckBoxes)
