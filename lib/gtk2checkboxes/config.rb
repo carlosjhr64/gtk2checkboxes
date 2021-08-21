@@ -1,6 +1,6 @@
 class Gtk2CheckBoxes
   using Rafini::String # String#semantic
-  # extend Rafini::Empty # a0 and h0
+  extend Rafini::Empty # a0 and h0
   CONFIG = {
     about_dialog: {
       set_program_name: 'Gtk2CheckBoxes',
@@ -10,10 +10,22 @@ class Gtk2CheckBoxes
       set_website: 'https://github.com/carlosjhr64/gtk2checkboxes',
       set_website_label: 'See it at GitHub!',
     },
+
     window: {
       set_title: 'Gtk2CheckBoxes',
       set_window_position: :center,
     },
+
+    NOTEBOOK: a0,
+    notebook: h0,
+    notebook!: [:NOTEBOOK, :notebook],
+
+    HBOX: [:horizontal],
+    hbox: {
+      into: [:append_page],
+    },
+    hbox!: [:HBOX, :hbox],
+
     # app_menu: {
     #   add_menu_item: [ :minime!, :help!, :about!, :quit!  ],
     # },
