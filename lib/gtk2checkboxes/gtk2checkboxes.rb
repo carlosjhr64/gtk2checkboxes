@@ -22,9 +22,9 @@ class Gtk2CheckBoxes
 
   TABS = {}
 
-  def add_check_button(vbox, name, status)
+  def add_check_button(vbox, text, status)
     check_button = Such::CheckButton.new vbox, :checkbutton!
-    check_button.set_label name
+    check_button.set_label text
     check_button.set_active status
     check_button
   end
@@ -49,6 +49,22 @@ class Gtk2CheckBoxes
     end
   end
 
+  def page
+    @notebook.children[@notebook.page]
+  end
+
+  def tab
+    @notebook.get_tab_label(page).text
+  end
+
+  def cachefile
+    File.join CACHE, tab+'.txt'
+  end
+
+  def append(text)
+    File.open(cachefile, 'a'){_1.puts '- '+text}
+  end
+
   def initialize(stage, toolbar, options)
     @notebook = Such::Notebook.new stage, :notebook!
     Find.find(CACHE) do |fn|
@@ -67,12 +83,12 @@ class Gtk2CheckBoxes
       dialog.entry :dialog_entry!
       Gtk3App.transient dialog
       if text = dialog.text
-        vbox = @notebook.children[@notebook.page]
-        add_check_button(vbox, text, false).show
+        add_check_button(page, text, false).show
+        append text
       end
     end
-    Such::Button.new @tools, :delete_item! do
-      puts "TODO: delete item."
+    Such::Button.new @tools, :edit_items! do
+      system 'xdg-open ~/.cache/gtk3app/gtk2checkboxes/Todo.txt'
     end
   end
 end

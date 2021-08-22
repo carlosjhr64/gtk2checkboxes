@@ -49,11 +49,15 @@ class Gtk2CheckBoxes
     hbox: h0,
     hbox!: [:HBOX, :hbox],
 
-    ADD_ITEM: [label: 'Add Item'],
+    ADD_ITEM: [label: 'Add'],
     add_item: h0,
     add_item!: [:ADD_ITEM, :add_item],
 
-    DELETE_ITEM: [label: 'Delete Item'],
+    EDIT_ITEMS: [label: 'Edit'],
+    edit_items: h0,
+    edit_items!: [:EDIT_ITEMS, :edit_items],
+
+    DELETE_ITEM: [label: 'Delete'],
     delete_item: h0,
     delete_item!: [:DELETE_ITEM, :delete_item],
 
