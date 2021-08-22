@@ -16,6 +16,14 @@ class Gtk2CheckBoxes
       set_website_label: 'See it at GitHub!',
     },
 
+    ENTRY_DIALOG: a0,
+    entry_dialog: h0,
+    entry_dialog!: a0,
+
+    DIALOG_ENTRY: a0,
+    dialog_entry: h0,
+    dialog_entry!: [:DIALOG_ENTRY, :dialog_entry],
+
     window: {
       set_title: 'Gtk2CheckBoxes',
       set_window_position: :center,
@@ -36,6 +44,18 @@ class Gtk2CheckBoxes
     CHECKBUTTON: a0,
     checkbutton: h0,
     checkbutton!: [:CHECKBUTTON, :checkbutton],
+
+    HBOX: [:horizontal],
+    hbox: h0,
+    hbox!: [:HBOX, :hbox],
+
+    ADD_ITEM: [label: 'Add Item'],
+    add_item: h0,
+    add_item!: [:ADD_ITEM, :add_item],
+
+    DELETE_ITEM: [label: 'Delete Item'],
+    delete_item: h0,
+    delete_item!: [:DELETE_ITEM, :delete_item],
 
     # app_menu: {
     #   add_menu_item: [ :minime!, :help!, :about!, :quit!  ],
