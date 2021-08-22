@@ -5,7 +5,7 @@ class Gtk2CheckBoxes
   CACHE = File.join UserSpace::XDG['cache'], 'gtk3app', 'gtk2checkboxes'
 
   CONFIG = {
-    DefaultTab: 'Todo',
+    DefaultTab: 'TODO',
     Editor: 'gedit',
 
     about_dialog: {

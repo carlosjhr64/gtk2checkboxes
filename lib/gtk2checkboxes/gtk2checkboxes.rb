@@ -115,6 +115,10 @@ class Gtk2CheckBoxes
     end
   end
 
+  def set_tab_text(text)
+    @notebook.get_tab_label(page).set_text text
+  end
+
   def initialize(stage, toolbar, options)
     @notebook = Such::Notebook.new stage, :notebook!
     Find.find(CACHE) do |fn|
@@ -144,7 +148,8 @@ class Gtk2CheckBoxes
     end
     Such::Button.new @tools, :rename_page! do
       if text = get_new_page_name(:rename_dialog!)
-        puts "TODO: RENAME" # TODO
+        File.rename cachefile, File.join(CACHE, text+'.txt')
+        set_tab_text text
       end
     end
     Such::Button.new @tools, :add_page! do
