@@ -71,11 +71,11 @@ class Gtk2CheckBoxes
     end
   end
 
-  def add_page(fn)
+  def add_page(fn, populate:false)
     label = File.basename fn, '.*'
     vbox = Such::Box.new @notebook, :vbox!
     @notebook.set_tab_label vbox, Such::Label.new([label], :tab_label)
-    populate_page(fn, vbox) if File.exist? fn
+    populate_page(fn, vbox) if populate and File.exist? fn
   end
 
   def clear
@@ -104,13 +104,27 @@ class Gtk2CheckBoxes
     File.open(cachefile, 'a'){_1.puts '- '+text}
   end
 
+  def get_new_page_name
+    dialog_key = :add_dialog!
+    entry_key = :add_entry!
+    loop do
+      dialog = EntryDialog.new dialog_key
+      dialog.entry :add_entry!
+      Gtk3App.transient dialog
+      text = dialog.text
+      return text if text.nil? or /^\w+$/.match? text
+      dialog_key = :add_dialog_retry!
+      entry_key = :add_entry_retry!
+    end
+  end
+
   def initialize(stage, toolbar, options)
     @notebook = Such::Notebook.new stage, :notebook!
     Find.find(CACHE) do |fn|
       Find.prune if !(fn==CACHE) && File.directory?(fn)
       case fn
       when %r{/\w+\.txt$}
-        add_page fn
+        add_page fn, populate:true
       when %r{/\w+\.txt\.bak$}
         File.unlink fn
       end
@@ -132,6 +146,9 @@ class Gtk2CheckBoxes
       reload if File.mtime(cachefile) > start
     end
     Such::Button.new @tools, :add_page! do
+      if text = get_new_page_name
+        add_page text
+      end
     end
     Such::Button.new @tools, :delete_page! do
       dialog = YesNo.new :delete_dialog!

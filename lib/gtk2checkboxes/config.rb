@@ -25,6 +25,19 @@ class Gtk2CheckBoxes
     dialog_entry: h0,
     dialog_entry!: [:DIALOG_ENTRY, :dialog_entry],
 
+    ADD_DIALOG: [title: 'Add Page:'],
+    add_dialog: h0,
+    add_dialog!: [:ADD_DIALOG, :add_dialog],
+
+    ADD_DIALOG_RETRY: [title: 'Need one word:'],
+    add_dialog_retry: h0,
+    add_dialog_retry!: [:ADD_DIALOG_RETRY, :add_dialog_retry],
+
+    ADD_ENTRY: a0,
+    add_entry: h0,
+    add_entry!: [:ADD_ENTRY, :add_entry],
+    add_entry_retry!: [:ADD_ENTRY, :add_entry], # same
+
     DELETE_DIALOG: [title: 'Detete Page'],
     delete_dialog: h0,
     delete_dialog!: [:DELETE_DIALOG, :delete_dialog],
@@ -47,6 +60,7 @@ class Gtk2CheckBoxes
     VBOX: [:vertical],
     vbox: {
       into: [:append_page],
+      show: a0,
     },
     vbox!: [:VBOX, :vbox],
 
