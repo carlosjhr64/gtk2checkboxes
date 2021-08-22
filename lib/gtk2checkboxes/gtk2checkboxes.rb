@@ -3,7 +3,7 @@ class Gtk2CheckBoxes
 
   class EntryDialog < Such::Dialog
     def initialize(*par)
-      super
+      super(*par)
       add_button Gtk::Stock::CANCEL, Gtk::ResponseType::CANCEL
       add_button Gtk::Stock::ADD, Gtk::ResponseType::OK
     end
@@ -84,7 +84,7 @@ class Gtk2CheckBoxes
     end
     add_page CONFIG[:DefaultTab] if @notebook.children.empty?
     @tools = Such::Box.new toolbar, :hbox!
-    Such::Button.new @tools, :add_item! do
+    Such::Button.new @tools, :append_item! do
       dialog = EntryDialog.new :entry_dialog!
       dialog.entry :dialog_entry!
       Gtk3App.transient dialog
@@ -93,10 +93,14 @@ class Gtk2CheckBoxes
         append text
       end
     end
-    Such::Button.new @tools, :edit_items! do
+    Such::Button.new @tools, :edit_page! do
       start = Time.now
       system "#{CONFIG[:Editor]} #{cachefile}"
       reload if File.mtime(cachefile) > start
+    end
+    Such::Button.new @tools, :delete_page! do
+    end
+    Such::Button.new @tools, :add_page! do
     end
   end
 end

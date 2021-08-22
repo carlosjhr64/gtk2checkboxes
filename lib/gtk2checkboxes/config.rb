@@ -17,9 +17,9 @@ class Gtk2CheckBoxes
       set_website_label: 'See it at GitHub!',
     },
 
-    ENTRY_DIALOG: a0,
+    ENTRY_DIALOG: [title: 'Item:'],
     entry_dialog: h0,
-    entry_dialog!: a0,
+    entry_dialog!: [:ENTRY_DIALOG, :entry_dialog],
 
     DIALOG_ENTRY: a0,
     dialog_entry: h0,
@@ -50,17 +50,21 @@ class Gtk2CheckBoxes
     hbox: h0,
     hbox!: [:HBOX, :hbox],
 
-    ADD_ITEM: [label: 'Add'],
-    add_item: h0,
-    add_item!: [:ADD_ITEM, :add_item],
+    APPEND_ITEM: [label: 'Append item'],
+    append_item: h0,
+    append_item!: [:APPEND_ITEM, :append_item],
 
-    EDIT_ITEMS: [label: 'Edit'],
-    edit_items: h0,
-    edit_items!: [:EDIT_ITEMS, :edit_items],
+    EDIT_PAGE: [label: 'Edit page'],
+    edit_page: h0,
+    edit_page!: [:EDIT_PAGE, :edit_page],
 
-    DELETE_ITEM: [label: 'Delete'],
-    delete_item: h0,
-    delete_item!: [:DELETE_ITEM, :delete_item],
+    DELETE_PAGE: [label: 'Delete page'],
+    delete_page: h0,
+    delete_page!: [:DELETE_PAGE, :delete_page],
+
+    ADD_PAGE: [label: 'Add page'],
+    add_page: h0,
+    add_page!: [:ADD_PAGE, :add_page],
 
     # app_menu: {
     #   add_menu_item: [ :minime!, :help!, :about!, :quit!  ],
