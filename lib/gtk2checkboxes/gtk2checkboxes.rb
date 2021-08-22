@@ -20,33 +20,9 @@ class Gtk2CheckBoxes
     end
   end
 
-  TABS = {}
-
   def add_check_button(vbox, text, status)
-    check_button = Such::CheckButton.new vbox, :checkbutton!
-    check_button.set_label text
-    check_button.set_active status
-    check_button
-  end
-
-  def add_page(fn)
-    label = File.basename fn, '.*'
-    vbox = Such::Box.new @notebook, :vbox!
-    @notebook.set_tab_label vbox, Such::Label.new([label], :tab_label)
-    TABS[label] = vbox
-    if File.exist? fn
-      File.open(fn, 'r') do |fh|
-        fh.each do |line|
-          line.chomp!
-          case line
-          when %r{^\- (\S.*)$}
-            add_check_button vbox, $1, false
-          when %r{^\+ (\S.*)$}
-            add_check_button vbox, $1, true
-          end
-        end
-      end
-    end
+    Such::CheckButton.new vbox, {set_label: text, set_active: status},
+      :checkbutton!
   end
 
   def page
@@ -59,6 +35,36 @@ class Gtk2CheckBoxes
 
   def cachefile
     File.join CACHE, tab+'.txt'
+  end
+
+
+  def populate_page(fn=cachefile, vbox=page)
+    File.open(fn, 'r') do |fh|
+      fh.each do |line|
+        line.chomp!
+        case line
+        when %r{^\- (\S.*)$}
+          add_check_button vbox, $1, false
+        when %r{^\+ (\S.*)$}
+          add_check_button vbox, $1, true
+        end
+      end
+    end
+  end
+
+  def add_page(fn)
+    label = File.basename fn, '.*'
+    vbox = Such::Box.new @notebook, :vbox!
+    @notebook.set_tab_label vbox, Such::Label.new([label], :tab_label)
+    populate_page(fn, vbox) if File.exist? fn
+  end
+
+  def reload
+    page.each do |item|
+      page.remove item
+      item.destroy
+    end
+    populate_page
   end
 
   def append(text)
@@ -76,19 +82,21 @@ class Gtk2CheckBoxes
         File.unlink fn
       end
     end
-    add_page CONFIG[:DefaultTab] if TABS.length < 1
+    add_page CONFIG[:DefaultTab] if @notebook.children.empty?
     @tools = Such::Box.new toolbar, :hbox!
     Such::Button.new @tools, :add_item! do
       dialog = EntryDialog.new :entry_dialog!
       dialog.entry :dialog_entry!
       Gtk3App.transient dialog
       if text = dialog.text
-        add_check_button(page, text, false).show
+        add_check_button page, text, false
         append text
       end
     end
     Such::Button.new @tools, :edit_items! do
-      system 'xdg-open ~/.cache/gtk3app/gtk2checkboxes/Todo.txt'
+      start = Time.now
+      system "#{CONFIG[:Editor]} #{cachefile}"
+      reload if File.mtime(cachefile) > start
     end
   end
 end

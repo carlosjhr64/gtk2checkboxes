@@ -6,6 +6,7 @@ class Gtk2CheckBoxes
 
   CONFIG = {
     DefaultTab: 'Todo',
+    Editor: 'gedit',
 
     about_dialog: {
       set_program_name: 'Gtk2CheckBoxes',
@@ -42,7 +43,7 @@ class Gtk2CheckBoxes
     vbox!: [:VBOX, :vbox],
 
     CHECKBUTTON: a0,
-    checkbutton: h0,
+    checkbutton: {show: a0},
     checkbutton!: [:CHECKBUTTON, :checkbutton],
 
     HBOX: [:horizontal],

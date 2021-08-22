@@ -9,3 +9,4 @@ in [/^(-h)|(--help)$/]
 else
   Gtk2CheckBoxes.run
 end
+exit
