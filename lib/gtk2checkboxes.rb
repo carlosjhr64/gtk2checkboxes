@@ -6,7 +6,7 @@ class Gtk2CheckBoxes
       -h --help
       -v --version
   HELP
-  VERSION = '3.0.210821'
+  VERSION = '3.0.210822'
 
   def self.run
     # StdLib

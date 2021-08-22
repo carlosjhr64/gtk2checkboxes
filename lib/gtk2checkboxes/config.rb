@@ -25,6 +25,8 @@ class Gtk2CheckBoxes
     notebook: h0,
     notebook!: [:NOTEBOOK, :notebook],
 
+    tab_label: h0,
+
     VBOX: [:vertical],
     vbox: {
       into: [:append_page],

@@ -11,7 +11,7 @@ class Gtk2CheckBoxes
   def add_page(fn)
     label = File.basename fn, '.*'
     vbox = Such::Box.new @notebook, :vbox!
-    @notebook.set_tab_label vbox, Gtk::Label.new(label)
+    @notebook.set_tab_label vbox, Such::Label.new([label], :tab_label)
     TABS[label] = vbox
     if File.exist? fn
       File.open(fn, 'r') do |fh|
