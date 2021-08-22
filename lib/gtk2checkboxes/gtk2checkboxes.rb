@@ -20,6 +20,25 @@ class Gtk2CheckBoxes
     end
   end
 
+  class YesNo < Such::Dialog
+    def initialize(*par)
+      super(*par)
+      add_button Gtk::Stock::NO, Gtk::ResponseType::CANCEL
+      add_button Gtk::Stock::YES, Gtk::ResponseType::OK
+    end
+
+    def label(*par)
+      Such::Label.new child, *par
+    end
+
+    def yes?
+      show_all
+      response = run
+      destroy
+      response == Gtk::ResponseType::OK
+    end
+  end
+
   def add_check_button(vbox, text, status)
     Such::CheckButton.new vbox, {set_label: text, set_active: status},
       :checkbutton!
@@ -59,12 +78,26 @@ class Gtk2CheckBoxes
     populate_page(fn, vbox) if File.exist? fn
   end
 
-  def reload
+  def clear
     page.each do |item|
       page.remove item
       item.destroy
     end
+  end
+
+  def reload
+    clear
     populate_page
+  end
+
+  def delete
+   clear
+   # Notebook requires at least one page
+   if @notebook.children.length > 1
+     @notebook.remove_page @notebook.page
+   else
+     FileUtils.touch cachefile
+   end
   end
 
   def append(text)
@@ -89,8 +122,8 @@ class Gtk2CheckBoxes
       dialog.entry :dialog_entry!
       Gtk3App.transient dialog
       if text = dialog.text
-        add_check_button page, text, false
         append text
+        add_check_button page, text, false
       end
     end
     Such::Button.new @tools, :edit_page! do
@@ -98,9 +131,16 @@ class Gtk2CheckBoxes
       system "#{CONFIG[:Editor]} #{cachefile}"
       reload if File.mtime(cachefile) > start
     end
-    Such::Button.new @tools, :delete_page! do
-    end
     Such::Button.new @tools, :add_page! do
+    end
+    Such::Button.new @tools, :delete_page! do
+      dialog = YesNo.new :delete_dialog!
+      dialog.label :delete_label!
+      Gtk3App.transient dialog
+      if dialog.yes?
+        File.rename cachefile, cachefile+'.bak'
+        delete
+      end
     end
   end
 end

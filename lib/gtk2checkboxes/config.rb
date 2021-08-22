@@ -25,6 +25,14 @@ class Gtk2CheckBoxes
     dialog_entry: h0,
     dialog_entry!: [:DIALOG_ENTRY, :dialog_entry],
 
+    DELETE_DIALOG: [title: 'Detete Page'],
+    delete_dialog: h0,
+    delete_dialog!: [:DELETE_DIALOG, :delete_dialog],
+
+    DELETE_LABEL: ['Are you sure?'],
+    delete_label: h0,
+    delete_label!: [:DELETE_LABEL, :delete_label],
+
     window: {
       set_title: 'Gtk2CheckBoxes',
       set_window_position: :center,
@@ -58,13 +66,13 @@ class Gtk2CheckBoxes
     edit_page: h0,
     edit_page!: [:EDIT_PAGE, :edit_page],
 
-    DELETE_PAGE: [label: 'Delete page'],
-    delete_page: h0,
-    delete_page!: [:DELETE_PAGE, :delete_page],
-
     ADD_PAGE: [label: 'Add page'],
     add_page: h0,
     add_page!: [:ADD_PAGE, :add_page],
+
+    DELETE_PAGE: [label: 'Delete page'],
+    delete_page: h0,
+    delete_page!: [:DELETE_PAGE, :delete_page],
 
     # app_menu: {
     #   add_menu_item: [ :minime!, :help!, :about!, :quit!  ],
