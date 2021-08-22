@@ -17,26 +17,27 @@ class Gtk2CheckBoxes
       set_website_label: 'See it at GitHub!',
     },
 
-    ENTRY_DIALOG: [title: 'Item:'],
     entry_dialog: h0,
-    entry_dialog!: [:ENTRY_DIALOG, :entry_dialog],
+
+    ITEM_DIALOG: [title: 'Append Item'],
+    item_dialog!: [:ITEM_DIALOG, :entry_dialog],
+
+    RENAME_DIALOG: [title: 'Raname Page'],
+    rename_dialog!: [:RENAME_DIALOG, :entry_dialog],
+
+    ADD_DIALOG: [title: 'Add Page'],
+    add_dialog!: [:ADD_DIALOG, :entry_dialog],
+
+    DIALOG_RETRY: [title: 'Need one word:'],
+    dialog_retry!: [:DIALOG_RETRY, :entry_dialog],
 
     DIALOG_ENTRY: a0,
     dialog_entry: h0,
     dialog_entry!: [:DIALOG_ENTRY, :dialog_entry],
 
-    ADD_DIALOG: [title: 'Add Page:'],
-    add_dialog: h0,
-    add_dialog!: [:ADD_DIALOG, :add_dialog],
-
-    ADD_DIALOG_RETRY: [title: 'Need one word:'],
-    add_dialog_retry: h0,
-    add_dialog_retry!: [:ADD_DIALOG_RETRY, :add_dialog_retry],
-
     ADD_ENTRY: a0,
     add_entry: h0,
     add_entry!: [:ADD_ENTRY, :add_entry],
-    add_entry_retry!: [:ADD_ENTRY, :add_entry], # same
 
     DELETE_DIALOG: [title: 'Detete Page'],
     delete_dialog: h0,
@@ -76,15 +77,19 @@ class Gtk2CheckBoxes
     append_item: h0,
     append_item!: [:APPEND_ITEM, :append_item],
 
-    EDIT_PAGE: [label: 'Edit page'],
+    EDIT_PAGE: [label: 'Edit'],
     edit_page: h0,
     edit_page!: [:EDIT_PAGE, :edit_page],
 
-    ADD_PAGE: [label: 'Add page'],
+    ADD_PAGE: [label: 'Add'],
     add_page: h0,
     add_page!: [:ADD_PAGE, :add_page],
 
-    DELETE_PAGE: [label: 'Delete page'],
+    RENAME_PAGE: [label: 'Rename'],
+    rename_page: h0,
+    rename_page!: [:RENAME_PAGE, :rename_page],
+
+    DELETE_PAGE: [label: 'Delete'],
     delete_page: h0,
     delete_page!: [:DELETE_PAGE, :delete_page],
 

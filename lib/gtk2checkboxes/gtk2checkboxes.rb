@@ -5,7 +5,7 @@ class Gtk2CheckBoxes
     def initialize(*par)
       super(*par)
       add_button Gtk::Stock::CANCEL, Gtk::ResponseType::CANCEL
-      add_button Gtk::Stock::ADD, Gtk::ResponseType::OK
+      add_button Gtk::Stock::OK, Gtk::ResponseType::OK
     end
 
     def entry(*par)
@@ -104,17 +104,14 @@ class Gtk2CheckBoxes
     File.open(cachefile, 'a'){_1.puts '- '+text}
   end
 
-  def get_new_page_name
-    dialog_key = :add_dialog!
-    entry_key = :add_entry!
+  def get_new_page_name(dialog_key)
     loop do
       dialog = EntryDialog.new dialog_key
       dialog.entry :add_entry!
       Gtk3App.transient dialog
       text = dialog.text
       return text if text.nil? or /^\w+$/.match? text
-      dialog_key = :add_dialog_retry!
-      entry_key = :add_entry_retry!
+      dialog_key = :dialog_retry!
     end
   end
 
@@ -132,7 +129,7 @@ class Gtk2CheckBoxes
     add_page CONFIG[:DefaultTab] if @notebook.children.empty?
     @tools = Such::Box.new toolbar, :hbox!
     Such::Button.new @tools, :append_item! do
-      dialog = EntryDialog.new :entry_dialog!
+      dialog = EntryDialog.new :item_dialog!
       dialog.entry :dialog_entry!
       Gtk3App.transient dialog
       if text = dialog.text
@@ -145,8 +142,13 @@ class Gtk2CheckBoxes
       system "#{CONFIG[:Editor]} #{cachefile}"
       reload if File.mtime(cachefile) > start
     end
+    Such::Button.new @tools, :rename_page! do
+      if text = get_new_page_name(:rename_dialog!)
+        puts "TODO: RENAME" # TODO
+      end
+    end
     Such::Button.new @tools, :add_page! do
-      if text = get_new_page_name
+      if text = get_new_page_name(:add_dialog!)
         add_page text
       end
     end
