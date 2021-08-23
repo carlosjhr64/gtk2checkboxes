@@ -5,9 +5,9 @@ class Gtk2CheckBoxes
     Options:
       -h --help
       -v --version
-      --minime      \tReal minime
-      --notoggle    \tMinime wont toggle decorated and keep above
-      --notdecorated\tDont decorate window
+      --minime      \t Real minime
+      --notoggle    \t Minime wont toggle decorated and keep above
+      --notdecorated\t Dont decorate window
   HELP
   VERSION = '3.0.210823'
 
