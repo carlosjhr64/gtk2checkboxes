@@ -46,7 +46,7 @@ class Gtk2CheckBoxes
   end
 
   def cachefile
-    File.join CACHE, tab+'.txt'
+    File.join CACHE, tab+'.md'
   end
 
   def add_check_button(vbox, text, status)
@@ -56,14 +56,15 @@ class Gtk2CheckBoxes
       :checkbutton!,
       'toggled'
     ) do
-      # Note that it was toggled, so invert the matcher
-      matcher = "#{checkbutton.active? ? '-' : '+'} #{checkbutton.label}"
-      checked = checkbutton.active? ? '+' : '-'
+      x = checkbutton.active? ? 'x' : ' '
+      # Note that x was toggled, so the xbox is inverted for the matcher.
+      xbox = checkbutton.active? ? '- [ ]' : '- [x]'
+      matcher = "#{xbox} #{checkbutton.label}"
       File.open(cachefile, 'r+') do |fh|
         fh.each_line do |line|
           if matcher == line.chomp
-            fh.seek -line.length, IO::SEEK_CUR
-            fh.write checked
+            fh.seek(3-line.length, IO::SEEK_CUR)
+            fh.write x
             break
           end
         end
@@ -76,9 +77,9 @@ class Gtk2CheckBoxes
       fh.each do |line|
         line.chomp!
         case line
-        when %r{^\- (\S.*)$}
+        when %r{^\- \[ \] (.*)$}
           add_check_button vbox, $1, false
-        when %r{^\+ (\S.*)$}
+        when %r{^\- \[x\] (.*)$}
           add_check_button vbox, $1, true
         end
       end
@@ -123,7 +124,7 @@ class Gtk2CheckBoxes
   end
 
   def append(text)
-    File.open(cachefile, 'a'){_1.puts '- '+text}
+    File.open(cachefile, 'a'){_1.puts '- [ ] '+text}
   end
 
   def add_page(fn, populate:false)
@@ -138,9 +139,9 @@ class Gtk2CheckBoxes
     Find.find(CACHE) do |fn|
       Find.prune if !(fn==CACHE) && File.directory?(fn)
       case fn
-      when %r{/\w+\.txt$}
+      when %r{/\w+\.md$}
         add_page fn, populate:true
-      when %r{/\w+\.txt\.bak$}
+      when %r{/\w+\.md\.bak$}
         File.unlink fn
       end
     end
@@ -162,12 +163,13 @@ class Gtk2CheckBoxes
     end
     Such::Button.new @tools, :rename_page! do
       if text = get_new_page_name(:rename_dialog!)
-        File.rename cachefile, File.join(CACHE, text+'.txt')
+        File.rename cachefile, File.join(CACHE, text+'.md')
         set_tab_text text
       end
     end
     Such::Button.new @tools, :add_page! do
       if text = get_new_page_name(:add_dialog!)
+        FileUtils.touch File.join(CACHE, text+'.md')
         add_page text
       end
     end
