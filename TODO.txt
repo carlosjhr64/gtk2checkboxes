@@ -1,8 +1,0 @@
-TODO
-
-
-DONE
-
-	Don't waste time saving unchanged page data.
-	Maemo's look
-

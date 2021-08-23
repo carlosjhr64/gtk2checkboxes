@@ -14,9 +14,21 @@ Just a really simple app.
 Allows for multiple lists.
 
 ## INSTALL
-
-    gem install gtk2checkboxes
-
+```shell
+gem install gtk2checkboxes
+```
+## HELP
+```shell
+$ gtk2checkboxes --help
+Usage:
+  gtk2checkboxes [:options+]
+Options:
+  -h --help
+  -v --version
+  --minime      	 Real minime
+  --notoggle    	 Minime wont toggle decorated and keep above
+  --notdecorated	 Dont decorate window
+```
 ## LICENSE
 
 (The MIT License)
