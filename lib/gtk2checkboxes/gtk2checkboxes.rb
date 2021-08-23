@@ -130,6 +130,24 @@ class Gtk2CheckBoxes
     end
   end
 
+  def item_exist?(text)
+    page.each do |checkbutton|
+      return true if checkbutton.label == text
+    end
+    return false
+  end
+
+  def get_new_item(dialog_key)
+    loop do
+      dialog = EntryDialog.new dialog_key
+      dialog.entry :dialog_entry!
+      Gtk3App.transient dialog
+      text = dialog.text
+      return text unless item_exist? text
+      dialog_key = :item_retry!
+    end
+  end
+
   def append(text)
     File.open(cachefile, 'a'){_1.puts '- [ ] '+text}
   end
@@ -156,12 +174,9 @@ class Gtk2CheckBoxes
     add_page CONFIG[:DefaultTab], touch:true if @notebook.children.empty?
     @tools = Such::Box.new toolbar, :hbox!
     Such::Button.new @tools, :append_item! do
-      dialog = EntryDialog.new :item_dialog!
-      dialog.entry :dialog_entry!
-      Gtk3App.transient dialog
-      if text = dialog.text
-        append text
-        add_check_button page, text, false
+      if item = get_new_item(:item_dialog!)
+        append item
+        add_check_button page, item, false
       end
     end
     Such::Button.new @tools, :edit_page! do

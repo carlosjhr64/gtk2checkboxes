@@ -34,6 +34,9 @@ class Gtk2CheckBoxes
     DIALOG_RETRY: [title: 'Need one unique word:'],
     dialog_retry!: [:DIALOG_RETRY, :entry_dialog],
 
+    ITEM_RETRY: [title: 'Need unique item:'],
+    item_retry!: [:ITEM_RETRY, :entry_dialog],
+
     DIALOG_ENTRY: a0,
     dialog_entry: h0,
     dialog_entry!: [:DIALOG_ENTRY, :dialog_entry],
