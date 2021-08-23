@@ -7,7 +7,7 @@ class Gtk2CheckBoxes
 
   CONFIG = {
     DefaultTab: 'TODO',
-    Editor: 'xdg-open',
+    Editor: 'gedit',
     HelpFile: 'https://github.com/carlosjhr64/gtk2checkboxes',
     Logo: "#{DATA_DIR}/logo.png",
 

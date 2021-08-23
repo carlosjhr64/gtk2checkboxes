@@ -26,4 +26,4 @@ class Gtk2CheckBoxes
 end
 # Requires:
 #`ruby`
-#`xdg-open`
+#`gedit`
