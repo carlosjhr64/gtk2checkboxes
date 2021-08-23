@@ -1,6 +1,4 @@
 class Gtk2CheckBoxes
-  # using Rafini::Exception
-
   class YesNo < Such::Dialog
     def initialize(*par)
       super(*par)
