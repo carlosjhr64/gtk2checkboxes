@@ -1,6 +1,25 @@
 class Gtk2CheckBoxes
   # using Rafini::Exception
 
+  class YesNo < Such::Dialog
+    def initialize(*par)
+      super(*par)
+      add_button Gtk::Stock::NO, Gtk::ResponseType::CANCEL
+      add_button Gtk::Stock::YES, Gtk::ResponseType::OK
+    end
+
+    def label(*par)
+      Such::Label.new child, *par
+    end
+
+    def yes?
+      show_all
+      response = run
+      destroy
+      response == Gtk::ResponseType::OK
+    end
+  end
+
   class EntryDialog < Such::Dialog
     def initialize(*par)
       super(*par)
@@ -20,23 +39,16 @@ class Gtk2CheckBoxes
     end
   end
 
-  class YesNo < Such::Dialog
-    def initialize(*par)
-      super(*par)
-      add_button Gtk::Stock::NO, Gtk::ResponseType::CANCEL
-      add_button Gtk::Stock::YES, Gtk::ResponseType::OK
-    end
+  def page
+    @notebook.children[@notebook.page]
+  end
 
-    def label(*par)
-      Such::Label.new child, *par
-    end
+  def tab
+    @notebook.get_tab_label(page).text
+  end
 
-    def yes?
-      show_all
-      response = run
-      destroy
-      response == Gtk::ResponseType::OK
-    end
+  def cachefile
+    File.join CACHE, tab+'.txt'
   end
 
   def add_check_button(vbox, text, status)
@@ -61,19 +73,6 @@ class Gtk2CheckBoxes
     end
   end
 
-  def page
-    @notebook.children[@notebook.page]
-  end
-
-  def tab
-    @notebook.get_tab_label(page).text
-  end
-
-  def cachefile
-    File.join CACHE, tab+'.txt'
-  end
-
-
   def populate_page(fn=cachefile, vbox=page)
     File.open(fn, 'r') do |fh|
       fh.each do |line|
@@ -86,13 +85,6 @@ class Gtk2CheckBoxes
         end
       end
     end
-  end
-
-  def add_page(fn, populate:false)
-    label = File.basename fn, '.*'
-    vbox = Such::Box.new @notebook, :vbox!
-    @notebook.set_tab_label vbox, Such::Label.new([label], :tab_label)
-    populate_page(fn, vbox) if populate and File.exist? fn
   end
 
   def clear
@@ -117,8 +109,8 @@ class Gtk2CheckBoxes
    end
   end
 
-  def append(text)
-    File.open(cachefile, 'a'){_1.puts '- '+text}
+  def set_tab_text(text)
+    @notebook.get_tab_label(page).set_text text
   end
 
   def get_new_page_name(dialog_key)
@@ -132,8 +124,15 @@ class Gtk2CheckBoxes
     end
   end
 
-  def set_tab_text(text)
-    @notebook.get_tab_label(page).set_text text
+  def append(text)
+    File.open(cachefile, 'a'){_1.puts '- '+text}
+  end
+
+  def add_page(fn, populate:false)
+    label = File.basename fn, '.*'
+    vbox = Such::Box.new @notebook, :vbox!
+    @notebook.set_tab_label vbox, Such::Label.new([label], :tab_label)
+    populate_page(fn, vbox) if populate and File.exist? fn
   end
 
   def initialize(stage, toolbar, options)

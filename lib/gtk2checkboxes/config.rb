@@ -97,7 +97,7 @@ class Gtk2CheckBoxes
     delete_page!: [:DELETE_PAGE, :delete_page],
 
     app_menu: {
-      add_menu_item: [ :minime!, :help!, :about!, :quit!  ],
+      add_menu_item: [:minime!, :help!, :about!, :quit!],
     },
   }
 end
