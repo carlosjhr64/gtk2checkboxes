@@ -127,11 +127,12 @@ class Gtk2CheckBoxes
     File.open(cachefile, 'a'){_1.puts '- [ ] '+text}
   end
 
-  def add_page(fn, populate:false)
+  def add_page(fn, populate:false, touch:false)
     label = File.basename fn, '.*'
     vbox = Such::Box.new @notebook, :vbox!
     @notebook.set_tab_label vbox, Such::Label.new([label], :tab_label)
     populate_page(fn, vbox) if populate and File.exist? fn
+    FileUtils.touch File.join(CACHE, label+'.md') if touch
   end
 
   def initialize(stage, toolbar, options)
@@ -145,7 +146,7 @@ class Gtk2CheckBoxes
         File.unlink fn
       end
     end
-    add_page CONFIG[:DefaultTab] if @notebook.children.empty?
+    add_page CONFIG[:DefaultTab], touch:true if @notebook.children.empty?
     @tools = Such::Box.new toolbar, :hbox!
     Such::Button.new @tools, :append_item! do
       dialog = EntryDialog.new :item_dialog!
@@ -169,8 +170,7 @@ class Gtk2CheckBoxes
     end
     Such::Button.new @tools, :add_page! do
       if text = get_new_page_name(:add_dialog!)
-        FileUtils.touch File.join(CACHE, text+'.md')
-        add_page text
+        add_page text, touch:true
       end
     end
     Such::Button.new @tools, :delete_page! do

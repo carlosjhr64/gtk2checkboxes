@@ -38,6 +38,6 @@ lib/gtk2checkboxes/gtk2checkboxes.rb
   s.executables << 'gtk2checkboxes'
   s.add_runtime_dependency 'gtk3app', '~> 5.1', '>= 5.1.210203'
   s.requirements << 'ruby: ruby 3.0.2p107 (2021-07-07 revision 0db68f0233) [x86_64-linux]'
-  s.requirements << 'gedit: gedit - Version 40.1'
+  s.requirements << 'xdg-open: xdg-open 1.1.3+'
 
 end
