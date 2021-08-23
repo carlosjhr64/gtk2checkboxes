@@ -40,8 +40,25 @@ class Gtk2CheckBoxes
   end
 
   def add_check_button(vbox, text, status)
-    Such::CheckButton.new vbox, {set_label: text, set_active: status},
-      :checkbutton!
+    checkbutton = Such::CheckButton.new(
+      vbox,
+      {set_label: text, set_active: status},
+      :checkbutton!,
+      'toggled'
+    ) do
+      # Note that it was toggled, so invert the matcher
+      matcher = "#{checkbutton.active? ? '-' : '+'} #{checkbutton.label}"
+      checked = checkbutton.active? ? '+' : '-'
+      File.open(cachefile, 'r+') do |fh|
+        fh.each_line do |line|
+          if matcher == line.chomp
+            fh.seek -line.length, IO::SEEK_CUR
+            fh.write checked
+            break
+          end
+        end
+      end
+    end
   end
 
   def page
