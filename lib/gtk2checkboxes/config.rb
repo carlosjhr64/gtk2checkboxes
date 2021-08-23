@@ -3,10 +3,13 @@ class Gtk2CheckBoxes
   extend Rafini::Empty # a0 and h0
 
   CACHE = File.join UserSpace::XDG['cache'], 'gtk3app', 'gtk2checkboxes'
+  DATA_DIR = File.join UserSpace::XDG['data'], 'gtk3app', 'gtk2checkboxes'
 
   CONFIG = {
     DefaultTab: 'TODO',
     Editor: 'gedit',
+    HelpFile: 'https://github.com/carlosjhr64/gtk2checkboxes',
+    Logo: "#{DATA_DIR}/logo.png",
 
     about_dialog: {
       set_program_name: 'Gtk2CheckBoxes',
@@ -93,8 +96,8 @@ class Gtk2CheckBoxes
     delete_page: h0,
     delete_page!: [:DELETE_PAGE, :delete_page],
 
-    # app_menu: {
-    #   add_menu_item: [ :minime!, :help!, :about!, :quit!  ],
-    # },
+    app_menu: {
+      add_menu_item: [ :minime!, :help!, :about!, :quit!  ],
+    },
   }
 end
