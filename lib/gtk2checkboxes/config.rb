@@ -31,7 +31,7 @@ class Gtk2CheckBoxes
     ADD_DIALOG: [title: 'Add Page'],
     add_dialog!: [:ADD_DIALOG, :entry_dialog],
 
-    DIALOG_RETRY: [title: 'Need one word:'],
+    DIALOG_RETRY: [title: 'Need one unique word:'],
     dialog_retry!: [:DIALOG_RETRY, :entry_dialog],
 
     DIALOG_ENTRY: a0,

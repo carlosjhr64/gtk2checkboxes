@@ -112,13 +112,20 @@ class Gtk2CheckBoxes
     @notebook.get_tab_label(page).set_text text
   end
 
+  def tab_exist?(text)
+    @notebook.children.each do |page|
+      return true if text == @notebook.get_tab_label(page).text
+    end
+    return false
+  end
+
   def get_new_page_name(dialog_key)
     loop do
       dialog = EntryDialog.new dialog_key
       dialog.entry :add_entry!
       Gtk3App.transient dialog
       text = dialog.text
-      return text if text.nil? or /^\w+$/.match? text
+      return text if text.nil? or (/^\w+$/.match? text and not tab_exist? text)
       dialog_key = :dialog_retry!
     end
   end
