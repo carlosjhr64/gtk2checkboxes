@@ -20,30 +20,29 @@ class Gtk2CheckBoxes
       set_website_label: 'See it at GitHub!',
     },
 
-    entry_dialog: h0,
-
-    ITEM_DIALOG: [title: 'Append Item'],
-    item_dialog!: [:ITEM_DIALOG, :entry_dialog],
-
-    RENAME_DIALOG: [title: 'Raname Page'],
-    rename_dialog!: [:RENAME_DIALOG, :entry_dialog],
-
-    ADD_DIALOG: [title: 'Add Page'],
-    add_dialog!: [:ADD_DIALOG, :entry_dialog],
-
-    DIALOG_RETRY: [title: 'Need one unique word:'],
-    dialog_retry!: [:DIALOG_RETRY, :entry_dialog],
-
-    ITEM_RETRY: [title: 'Need unique item:'],
-    item_retry!: [:ITEM_RETRY, :entry_dialog],
-
     DIALOG_ENTRY: a0,
     dialog_entry: h0,
     dialog_entry!: [:DIALOG_ENTRY, :dialog_entry],
 
-    ADD_ENTRY: a0,
-    add_entry: h0,
-    add_entry!: [:ADD_ENTRY, :add_entry],
+    ITEM_DIALOG: [title: 'Append Item'],
+    item_dialog: h0,
+    item_dialog!: [:ITEM_DIALOG, :item_dialog],
+
+    RENAME_DIALOG: [title: 'Raname Page'],
+    rename_dialog: h0,
+    rename_dialog!: [:RENAME_DIALOG, :rename_dialog],
+
+    ADD_DIALOG: [title: 'Add Page'],
+    add_dialog: h0,
+    add_dialog!: [:ADD_DIALOG, :add_dialog],
+
+    UNIQ_NAME: [title: 'Need one unique word:'],
+    uniq_name: h0,
+    uniq_name!: [:UNIQ_NAME, :uniq_name],
+
+    UNIQ_ITEM: [title: 'Need unique item:'],
+    uniq_item: h0,
+    uniq_item!: [:UNIQ_ITEM, :uniq_item],
 
     DELETE_DIALOG: [title: 'Detete Page'],
     delete_dialog: h0,

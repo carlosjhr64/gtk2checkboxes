@@ -122,11 +122,11 @@ class Gtk2CheckBoxes
   def get_new_page_name(dialog_key)
     loop do
       dialog = EntryDialog.new dialog_key
-      dialog.entry :add_entry!
+      dialog.entry :dialog_entry!
       Gtk3App.transient dialog
       text = dialog.text
       return text if text.nil? or (/^\w+$/.match? text and not tab_exist? text)
-      dialog_key = :dialog_retry!
+      dialog_key = :uniq_name!
     end
   end
 
@@ -144,7 +144,7 @@ class Gtk2CheckBoxes
       Gtk3App.transient dialog
       text = dialog.text
       return text unless item_exist? text
-      dialog_key = :item_retry!
+      dialog_key = :uniq_item!
     end
   end
 
