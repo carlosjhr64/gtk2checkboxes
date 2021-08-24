@@ -7,8 +7,6 @@ add_button
 add_check_button
 add_dialog
 ADD_DIALOG
-add_entry
-ADD_ENTRY
 add_menu_item
 add_page
 ADD_PAGE
@@ -20,6 +18,7 @@ app_menu
 ARGV
 basename
 Box
+button
 Button
 CACHE
 cachefile
@@ -28,7 +27,6 @@ center
 checkbutton
 CheckButton
 CHECKBUTTON
-checked
 child
 children
 chomp
@@ -49,8 +47,6 @@ Dialog
 dialog_entry
 DIALOG_ENTRY
 dialog_key
-dialog_retry
-DIALOG_RETRY
 directory
 each
 each_line
@@ -61,7 +57,6 @@ empty
 Empty
 entry
 Entry
-entry_dialog
 EntryDialog
 exist
 exit
@@ -72,6 +67,7 @@ FileUtils
 find
 Find
 fn
+get_new_item
 get_new_page_name
 get_tab_label
 Gtk
@@ -90,6 +86,7 @@ IO
 item
 item_dialog
 ITEM_DIALOG
+item_exist
 join
 klass
 label
@@ -97,6 +94,7 @@ Label
 length
 line
 Logo
+logo_press_event
 loop
 match
 matcher
@@ -157,9 +155,11 @@ start
 status
 Stock
 String
+sub
 Such
 system
 tab
+tab_exist
 tab_label
 text
 Time
@@ -167,6 +167,10 @@ title
 toolbar
 touch
 transient
+uniq_item
+UNIQ_ITEM
+uniq_name
+UNIQ_NAME
 unlink
 UserSpace
 using
@@ -176,6 +180,8 @@ VERSION
 vertical
 window
 write
+x
+xbox
 XDG
 yes
 YES
