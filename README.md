@@ -4,6 +4,8 @@
 * [github](https://www.github.com/carlosjhr64/gtk2checkboxes)
 * [rubygems](https://rubygems.org/gems/gtk2checkboxes)
 
+![Day Mode](img/snapshot.png)
+
 ## DESCRIPTION
 
 Create a simple shopping list.
