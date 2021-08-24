@@ -1,6 +1,6 @@
 # Ruby-Gnome CheckBoxes
 
-* [VERSION 3.0.210823](https://github.com/carlosjhr64/gtk2checkboxes/releases)
+* [VERSION 3.0.210824](https://github.com/carlosjhr64/gtk2checkboxes/releases)
 * [github](https://www.github.com/carlosjhr64/gtk2checkboxes)
 * [rubygems](https://rubygems.org/gems/gtk2checkboxes)
 
@@ -29,6 +29,16 @@ Options:
   --notoggle    	 Minime wont toggle decorated and keep above
   --notdecorated	 Dont decorate window
 ```
+## More
+
+* Mouse button 1 on logo: minime
+* Mouse button 2 on logo: app menu
+* Toolbar "Edit" button opens the tasks markdown file with `gedit` by default
+* Configuration file: `~/.config/gtk3app/gtk2checkboxes/config-*.rbon`
+
+You can change your editor from `gedit` to something else
+in the configuration file.
+
 ## LICENSE
 
 (The MIT License)

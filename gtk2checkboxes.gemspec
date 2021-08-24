@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
 
   s.name     = 'gtk2checkboxes'
-  s.version  = '3.0.210823'
+  s.version  = '3.0.210824'
 
   s.homepage = 'https://github.com/carlosjhr64/gtk2checkboxes'
 
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2021-08-23'
+  s.date     = '2021-08-24'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION

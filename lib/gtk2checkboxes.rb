@@ -9,7 +9,7 @@ class Gtk2CheckBoxes
       --notoggle    \t Minime wont toggle decorated and keep above
       --notdecorated\t Dont decorate window
   HELP
-  VERSION = '3.0.210823'
+  VERSION = '3.0.210824'
 
   def self.run
     # StdLib

@@ -204,5 +204,13 @@ class Gtk2CheckBoxes
         delete
       end
     end
+    Gtk3App.logo_press_event do |button|
+      case button
+      when 1
+        Gtk3App.minime!
+      # When 2 Nothing
+      # When 3 gets captured by Gtk3App's main menu
+      end
+    end
   end
 end
