@@ -36,8 +36,20 @@ Options:
 * Toolbar "Edit" button opens the tasks markdown file with `gedit` by default
 * Configuration file: `~/.config/gtk3app/gtk2checkboxes/config-*.rbon`
 
-You can change your editor from `gedit` to something else
-in the configuration file.
+You can change your editor from `gedit` to something else in the configuration
+file.  The process should not detach(go to background).  For example, I edited
+my `Editor:` key from:
+
+    Editor: "gedit $cachefile",
+
+to:
+
+    Editor: "foot -W 80x13 nvim $cachefile 2>/dev/null",
+
+Note that the tasks cache file is markdown.
+Any line that matches `/^- \[x| \] /` is considered to be a check box and
+should be followed by an item to be checked off.
+All other lines are ignored by the application.
 
 ## LICENSE
 

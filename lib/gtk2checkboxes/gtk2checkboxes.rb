@@ -181,7 +181,7 @@ class Gtk2CheckBoxes
     end
     Such::Button.new @tools, :edit_page! do
       start = Time.now
-      system "#{CONFIG[:Editor]} #{cachefile}"
+      system CONFIG[:Editor].sub('$cachefile', cachefile)
       reload if File.mtime(cachefile) > start
     end
     Such::Button.new @tools, :rename_page! do
