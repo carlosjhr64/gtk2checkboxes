@@ -44,9 +44,9 @@ my `Editor:` key from:
 
     Editor: "gedit $cachefile",
 
-to:
+To:
 
-    Editor: "foot -W 80x13 nvim $cachefile 2>/dev/null",
+    Editor: "nvim-qt --geometry 725x936 --nofork $cachefile",
 
 Note that the tasks cache file is markdown.
 Any line that matches `/^- \[x| \] /` is considered to be a check box and
