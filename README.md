@@ -1,6 +1,6 @@
 # Ruby-Gnome CheckBoxes
 
-* [VERSION 3.0.210824](https://github.com/carlosjhr64/gtk2checkboxes/releases)
+* [VERSION 3.0.230113](https://github.com/carlosjhr64/gtk2checkboxes/releases)
 * [github](https://www.github.com/carlosjhr64/gtk2checkboxes)
 * [rubygems](https://rubygems.org/gems/gtk2checkboxes)
 
@@ -9,7 +9,7 @@
 ## DESCRIPTION
 
 Create a simple shopping list.
-Maintain a check list of reacuring chores.
+Maintain a check list of recurring chores.
 Anything that one would make a check list for.
 
 Just a really simple app.
@@ -57,7 +57,7 @@ All other lines are ignored by the application.
 
 (The MIT License)
 
-Copyright (c) 2021 CarlosJHR64
+Copyright (c) 2023 CarlosJHR64
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

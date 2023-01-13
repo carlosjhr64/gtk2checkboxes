@@ -130,7 +130,7 @@ require
 require_relative
 response
 ResponseType
-Ruby30
+Ruby32
 run
 seek
 SEEK_CUR

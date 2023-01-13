@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
 
   s.name     = 'gtk2checkboxes'
-  s.version  = '3.0.210824'
+  s.version  = '3.0.230113'
 
   s.homepage = 'https://github.com/carlosjhr64/gtk2checkboxes'
 
-  s.author   = 'carlosjhr64'
+  s.author   = 'CarlosJHR64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2021-08-24'
+  s.date     = '2023-01-13'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
@@ -37,7 +37,7 @@ lib/gtk2checkboxes/gtk2checkboxes.rb
   )
   s.executables << 'gtk2checkboxes'
   s.add_runtime_dependency 'gtk3app', '~> 5.1', '>= 5.1.210203'
-  s.requirements << 'ruby: ruby 3.0.2p107 (2021-07-07 revision 0db68f0233) [x86_64-linux]'
+  s.requirements << 'ruby: ruby ruby 3.2.0 (2022-12-25 revision a528908271) [aarch64-linux]'
   s.requirements << 'gedit: gedit - Version 40.1'
 
 end
