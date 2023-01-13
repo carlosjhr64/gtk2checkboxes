@@ -1,0 +1,14 @@
+#! ruby
+require 'test/unit'
+require 'rafini'
+require 'user_space'
+require 'gtk2checkboxes'
+require 'gtk2checkboxes/config'
+require 'such/convention'
+
+class TestConfig < Test::Unit::TestCase
+  def test_config
+    assert_nil Such::Convention.validate(Gtk2CheckBoxes::CONFIG)
+  end
+end
+
