@@ -1,13 +1,13 @@
 class Gtk2CheckBoxes
   class YesNo < Such::Dialog
-    def initialize(*par)
-      super(*par)
+    def initialize(key)
+      super(key)
       add_button Gtk::Stock::NO, Gtk::ResponseType::CANCEL
       add_button Gtk::Stock::YES, Gtk::ResponseType::OK
     end
 
-    def label(*par)
-      Such::Label.new child, *par
+    def label(key)
+      Such::Label.new child, key
     end
 
     def yes?
@@ -19,14 +19,14 @@ class Gtk2CheckBoxes
   end
 
   class EntryDialog < Such::Dialog
-    def initialize(*par)
-      super(*par)
+    def initialize(key)
+      super(key)
       add_button Gtk::Stock::CANCEL, Gtk::ResponseType::CANCEL
-      add_button Gtk::Stock::OK, Gtk::ResponseType::OK
+      @ok = add_button Gtk::Stock::OK, Gtk::ResponseType::OK
     end
 
-    def entry(*par)
-      @entry = Such::Entry.new child, *par
+    def entry(key)
+      @entry = Such::Entry.new(child, key){@ok.clicked}
     end
 
     def text

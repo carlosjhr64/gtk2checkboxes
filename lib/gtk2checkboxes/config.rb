@@ -22,7 +22,7 @@ class Gtk2CheckBoxes
 
     DIALOG_ENTRY: a0,
     dialog_entry: h0,
-    dialog_entry!: [:DIALOG_ENTRY, :dialog_entry],
+    dialog_entry!: [:DIALOG_ENTRY, :dialog_entry, 'activate'],
 
     ITEM_DIALOG: [title: 'Append Item'],
     item_dialog: h0,

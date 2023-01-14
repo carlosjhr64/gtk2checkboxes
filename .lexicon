@@ -35,6 +35,7 @@ child
 children
 chomp
 clear
+clicked
 command
 CONFIG
 DATA_DIR
@@ -94,6 +95,7 @@ item_dialog
 ITEM_DIALOG
 item_exist
 join
+key
 klass
 label
 Label
@@ -120,7 +122,6 @@ open
 Open
 options
 page
-par
 populate
 populate_page
 prune
