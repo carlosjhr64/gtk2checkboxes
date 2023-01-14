@@ -106,7 +106,7 @@ class Gtk2CheckBoxes
         end
       end
     end
-    vbox.show_all
+    vbox
   end
 
   def clear
@@ -206,7 +206,7 @@ class Gtk2CheckBoxes
     Such::Button.new @tools, :edit_page! do
       start = Time.now
       system CONFIG[:Editor].sub('$cachefile', cachefile)
-      reload if File.mtime(cachefile) > start
+      reload.show_all if File.mtime(cachefile) > start
     end
     Such::Button.new @tools, :rename_page! do
       if text = get_new_page_name(:rename_dialog!)
