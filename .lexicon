@@ -160,6 +160,7 @@ set_version
 set_website
 set_website_label
 set_window_position
+set_xalign
 show_all
 spawn
 split
