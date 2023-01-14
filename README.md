@@ -1,6 +1,6 @@
 # Ruby-Gnome CheckBoxes
 
-* [VERSION 3.0.230113](https://github.com/carlosjhr64/gtk2checkboxes/releases)
+* [VERSION 3.1.230114](https://github.com/carlosjhr64/gtk2checkboxes/releases)
 * [github](https://www.github.com/carlosjhr64/gtk2checkboxes)
 * [rubygems](https://rubygems.org/gems/gtk2checkboxes)
 

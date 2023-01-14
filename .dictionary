@@ -17,7 +17,6 @@ DIR
 def
 DefaultTab
 Detete
-dev
 Dont
 EntryDialog
 env
@@ -44,12 +43,14 @@ md
 minime
 Minime
 mtime
+nofork
 NONINFRINGEMENT
 notdecorated
 notoggle
 nvim
 org
 png
+qt
 Rafini
 Raname
 rb
