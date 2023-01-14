@@ -39,9 +39,11 @@ HBOX
 HelpFile
 img
 klass
+kwrite
 md
 minime
 Minime
+mousepad
 mtime
 nofork
 NONINFRINGEMENT
@@ -50,6 +52,7 @@ notoggle
 nvim
 ok
 org
+pluma
 png
 qt
 Rafini

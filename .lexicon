@@ -57,6 +57,7 @@ directory
 each
 each_line
 Editor
+EDITOR
 edit_page
 EDIT_PAGE
 empty
@@ -73,6 +74,7 @@ File
 FileUtils
 find
 Find
+first
 fn
 get_new_item
 get_new_page_name
@@ -160,6 +162,7 @@ set_website_label
 set_window_position
 show_all
 spawn
+split
 stage
 start
 status
