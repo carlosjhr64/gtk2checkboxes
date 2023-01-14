@@ -4,16 +4,12 @@
 * [github](https://www.github.com/carlosjhr64/gtk2checkboxes)
 * [rubygems](https://rubygems.org/gems/gtk2checkboxes)
 
-![Day Mode](img/snapshot.png)
+![snapshot](img/snapshot.png)
 
 ## DESCRIPTION
 
-Create a simple shopping list.
-Maintain a check list of recurring chores.
-Anything that one would make a check list for.
-
-Just a really simple app.
-Allows for multiple lists.
+More than just check-boxes.
+Create a simple check list, bookmarks, or start menu.
 
 ## INSTALL
 ```shell
@@ -31,16 +27,29 @@ Options:
   --notoggle    	 Minime wont toggle decorated and keep above
   --notdecorated	 Dont decorate window
 ```
-## More
+## Logo mouse clicks
 
-* Mouse button 1 on logo: minime
-* Mouse button 2 on logo: app menu
-* Toolbar "Edit" button opens the tasks markdown file with `gedit` by default
-* Configuration file: `~/.config/gtk3app/gtk2checkboxes/config-*.rbon`
+Mouse clicks on logo:
 
-You can change your editor from `gedit` to something else in the configuration
-file.  The process should not detach(go to background).  For example, I edited
-my `Editor:` key from:
++ Button 1: minime
++ Button 2: nothing
++ Button 3: application menu
+
+## Tool-bar buttons
+
+* `Append item` to quickly add a check list item to the current list
+* `Edit` to open the list's markdown file(with `gedit` by default)
+* `Rename` to rename the current list
+* `Add` to add a new list
+* `Delete` to delete the current list
+
+## Configuration
+
++ Configuration file: `~/.config/gtk3app/gtk2checkboxes/config-*.rbon`
+
+You can change your editor from `gedit` to something else,
+but the process should not detach(go to background).
+For example, I edited my `Editor:` key from:
 
     Editor: "gedit $cachefile",
 
@@ -48,10 +57,42 @@ To:
 
     Editor: "nvim-qt --geometry 725x936 --nofork $cachefile",
 
-Note that the tasks cache file is markdown.
-Any line that matches `/^- \[x| \] /` is considered to be a check box and
+## Check-boxes
+
+In the list's markdown file:
+Any line that looks like `- [ ] item` is considered to be a check box and
 should be followed by an item to be checked off.
-All other lines are ignored by the application.
+```markdown
+- [ ] This is a unchecked item
+- [x] This is a checked item
+```
+## Links
+
+In the list's markdown file:
+Any line that looks like `* [link](target)` is considered to be a link.
+The target will be open by it's preferred application.
+```markdown
+* [Link to github](https://github.com)
+```
+## Commands
+
+In the list's markdown file:
+Any line that looks like `+ command: executable` is considered to be a command.
+The executable is spawn when the command button is clicked.
+```markdown
++ Spawn X-terminal: xterm
+```
+## Plain labels
+
+In the list's markdown file:
+Any line that looks like `* label` is considered to be a label.
+```markdown
+* Hello!
+```
+## Additional notes
+
+Any lines in the list's markdown file that does not match
+any of the above match cases is ignored.
 
 ## LICENSE
 
