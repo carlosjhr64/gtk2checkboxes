@@ -12,18 +12,13 @@ Gem::Specification.new do |s|
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
-Create a simple shopping list.
-Maintain a check list of reacuring chores.
-Anything that one would make a check list for.
-
-Just a really simple app.
-Allows for multiple lists.
+More than just check-boxes.
+Create a simple check list, bookmarks, or start menu.
 DESCRIPTION
 
   s.summary = <<SUMMARY
-Create a simple shopping list.
-Maintain a check list of reacuring chores.
-Anything that one would make a check list for.
+More than just check-boxes.
+Create a simple check list, bookmarks, or start menu.
 SUMMARY
 
   s.require_paths = ['lib']
@@ -36,8 +31,8 @@ lib/gtk2checkboxes/config.rb
 lib/gtk2checkboxes/gtk2checkboxes.rb
   )
   s.executables << 'gtk2checkboxes'
-  s.add_runtime_dependency 'gtk3app', '~> 5.1', '>= 5.1.210203'
-  s.requirements << 'ruby: ruby ruby 3.2.0 (2022-12-25 revision a528908271) [aarch64-linux]'
-  s.requirements << 'gedit: gedit - Version 40.1'
+  s.add_runtime_dependency 'gtk3app', '~> 5.4', '>= 5.4.230109'
+  s.requirements << 'ruby: ruby 3.2.0 (2022-12-25 revision a528908271) [aarch64-linux]'
+  s.requirements << 'gedit: gedit - Version 3.38.1'
 
 end

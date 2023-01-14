@@ -16,7 +16,7 @@ Create a simple check list, bookmarks, or start menu.
 gem install gtk2checkboxes
 ```
 ## HELP
-```shell
+```console
 $ gtk2checkboxes --help
 Usage:
   gtk2checkboxes [:options+]
