@@ -73,11 +73,11 @@ class Gtk2CheckBoxes
     checkbutton!: [:CHECKBUTTON, :checkbutton],
 
     LABEL: a0,
-    label: h0,
+    label: {set_xalign: 0.01},
     label!: [:LABEL, :label],
 
     BUTTON: a0,
-    button: h0,
+    button: {set_xalign: 0.01},
     button!: [:BUTTON, :button],
 
     HBOX: [:horizontal],
