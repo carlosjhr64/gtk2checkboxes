@@ -5,8 +5,11 @@ about_dialog
 active
 add_button
 add_check_button
+add_command
 add_dialog
 ADD_DIALOG
+add_label
+add_link
 add_menu_item
 add_page
 ADD_PAGE
@@ -20,6 +23,7 @@ basename
 Box
 button
 Button
+BUTTON
 CACHE
 cachefile
 CANCEL
@@ -31,6 +35,7 @@ child
 children
 chomp
 clear
+command
 CONFIG
 DATA_DIR
 DefaultTab
@@ -58,6 +63,7 @@ Empty
 entry
 Entry
 EntryDialog
+exe
 exist
 exit
 extend
@@ -91,8 +97,10 @@ join
 klass
 label
 Label
+LABEL
 length
 line
+link
 Logo
 logo_press_event
 loop
@@ -109,6 +117,7 @@ NOTEBOOK
 now
 OK
 open
+Open
 options
 page
 par
@@ -148,8 +157,8 @@ set_version
 set_website
 set_website_label
 set_window_position
-show
 show_all
+spawn
 stage
 start
 status
@@ -172,6 +181,7 @@ UNIQ_ITEM
 uniq_name
 UNIQ_NAME
 unlink
+url
 UserSpace
 using
 vbox

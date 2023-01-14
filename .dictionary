@@ -20,6 +20,7 @@ Detete
 Dont
 EntryDialog
 env
+exe
 fh
 fileutils
 FileUtils
@@ -64,6 +65,7 @@ uniq
 UNIQ
 uniq
 UNIQ
+url
 UserSpace
 usr
 vbox

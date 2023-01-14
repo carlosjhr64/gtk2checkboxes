@@ -49,6 +49,22 @@ class Gtk2CheckBoxes
     File.join CACHE, tab+'.md'
   end
 
+  # Spawn command defined
+  def add_command(vbox, command, exe)
+    Such::Button.new(vbox, {set_label: command}, :button!){spawn exe}
+  end
+
+  # Open link target with default application:
+  def add_link(vbox, link, url)
+    Such::Button.new(vbox, {set_label: link}, :button!) do
+      system(CONFIG[:Open], url)
+    end
+  end
+
+  def add_label(vbox, text)
+    Such::Label.new(vbox, {set_label: text}, :label!)
+  end
+
   def add_check_button(vbox, text, status)
     checkbutton = Such::CheckButton.new(
       vbox,
@@ -81,9 +97,16 @@ class Gtk2CheckBoxes
           add_check_button vbox, $1, false
         when %r{^\- \[x\] (.*)$}
           add_check_button vbox, $1, true
+        when %r{^\* \[([^\[\]]+)\]\(([^\(\)]+)\)}
+          add_link vbox, $1, $2
+        when %r{^\* (.*)$}
+          add_label vbox, $1
+        when %r{^\+ ([^:]+): (.*)$}
+          add_command vbox, $1, $2
         end
       end
     end
+    vbox.show_all
   end
 
   def clear

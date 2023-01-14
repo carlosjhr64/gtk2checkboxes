@@ -64,15 +64,20 @@ class Gtk2CheckBoxes
     tab_label: h0,
 
     VBOX: [:vertical],
-    vbox: {
-      into: [:append_page],
-      show: a0,
-    },
+    vbox: {into: [:append_page]},
     vbox!: [:VBOX, :vbox],
 
     CHECKBUTTON: a0,
-    checkbutton: {show: a0},
+    checkbutton: h0,
     checkbutton!: [:CHECKBUTTON, :checkbutton],
+
+    LABEL: a0,
+    label: h0,
+    label!: [:LABEL, :label],
+
+    BUTTON: a0,
+    button: h0,
+    button!: [:BUTTON, :button],
 
     HBOX: [:horizontal],
     hbox: h0,
