@@ -199,7 +199,7 @@ class Gtk2CheckBoxes
     Such::Button.new @tools, :append_item! do
       if item = get_new_item(:item_dialog!)
         append item
-        add_check_button page, item, false
+        add_check_button(page, item, false).show
       end
     end
     Such::Button.new @tools, :edit_page! do
