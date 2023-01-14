@@ -60,8 +60,7 @@ To:
 ## Check-boxes
 
 In the list's markdown file:
-Any line that looks like `- [ ] item` is considered to be a check box and
-should be followed by an item to be checked off.
+Any line that looks like `- [ ] item` is considered to be a check box:
 ```markdown
 - [ ] This is a unchecked item
 - [x] This is a checked item
@@ -70,7 +69,7 @@ should be followed by an item to be checked off.
 
 In the list's markdown file:
 Any line that looks like `* [link](target)` is considered to be a link.
-The target will be open by it's preferred application.
+The target will be open by it's preferred application:
 ```markdown
 * [Link to github](https://github.com)
 ```
@@ -78,20 +77,20 @@ The target will be open by it's preferred application.
 
 In the list's markdown file:
 Any line that looks like `+ command: executable` is considered to be a command.
-The executable is spawn when the command button is clicked.
+The executable is spawn when the command button is clicked:
 ```markdown
 + Spawn X-terminal: xterm
 ```
 ## Plain labels
 
 In the list's markdown file:
-Any line that looks like `* label` is considered to be a label.
+Any line that looks like `* label` is considered to be a label:
 ```markdown
 * Hello!
 ```
 ## Additional notes
 
-Any lines in the list's markdown file that does not match
+Lines in the list's markdown file that does not match
 any of the above match cases is ignored.
 
 ## LICENSE
