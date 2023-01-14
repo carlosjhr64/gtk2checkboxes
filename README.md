@@ -38,7 +38,7 @@ Mouse clicks on logo:
 ## Tool-bar buttons
 
 * `Append item` to quickly add a check list item to the current list
-* `Edit` to open the list's markdown file(with `gedit` by default)
+* `Edit` to open the list's markdown file
 * `Rename` to rename the current list
 * `Add` to add a new list
 * `Delete` to delete the current list
@@ -47,7 +47,7 @@ Mouse clicks on logo:
 
 + Configuration file: `~/.config/gtk3app/gtk2checkboxes/config-*.rbon`
 
-You can change your editor from `gedit` to something else,
+You can change your editor to something else,
 but the process should not detach(go to background).
 For example, I edited my `Editor:` key from:
 

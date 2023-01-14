@@ -4,10 +4,11 @@ class Gtk2CheckBoxes
 
   CACHE = File.join UserSpace::XDG['cache'], 'gtk3app', 'gtk2checkboxes'
   DATA_DIR = File.join UserSpace::XDG['data'], 'gtk3app', 'gtk2checkboxes'
+  EDITOR = `which gedit mousepad pluma kwrite`.split.first || 'xterm -e vi'
 
   CONFIG = {
+    Editor: "#{EDITOR} $cachefile",
     DefaultTab: 'TODO',
-    Editor: 'gedit $cachefile',
     HelpFile: 'https://github.com/carlosjhr64/gtk2checkboxes',
     Logo: "#{DATA_DIR}/logo.png",
 
