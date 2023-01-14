@@ -181,6 +181,7 @@ class Gtk2CheckBoxes
     @notebook.set_tab_label vbox, Such::Label.new([label], :tab_label)
     populate_page(fn, vbox) if populate and File.exist? fn
     FileUtils.touch File.join(CACHE, label+'.md') if touch
+    vbox
   end
 
   def initialize(stage, toolbar, options)
@@ -199,7 +200,7 @@ class Gtk2CheckBoxes
     Such::Button.new @tools, :append_item! do
       if item = get_new_item(:item_dialog!)
         append item
-        add_check_button(page, item, false).show
+        add_check_button(page, item, false).show_all
       end
     end
     Such::Button.new @tools, :edit_page! do
@@ -215,7 +216,7 @@ class Gtk2CheckBoxes
     end
     Such::Button.new @tools, :add_page! do
       if text = get_new_page_name(:add_dialog!)
-        add_page text, touch:true
+        add_page(text, touch:true).show_all
       end
     end
     Such::Button.new @tools, :delete_page! do
